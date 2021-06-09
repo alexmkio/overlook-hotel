@@ -2,9 +2,7 @@
 
 A short 1-2 sentence introduction describing what the application does.
 
-The project spec can be found [here]().
-
-The project can be found [here]().
+The project spec can be found [here](https://frontend.turing.edu/projects/overlook.html).
 
 ## Goals
 * 
