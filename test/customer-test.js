@@ -1,9 +1,8 @@
-// import chai from 'chai';
-// const expect = chai.expect;
 import { expect } from 'chai';
-import {  } from './sampleData';
+import { customers, rooms, bookings } from './sampleData';
+import Customer from '../src/Customer';
 
-describe('What Class are we testing?', function() {
+describe('CUSTOMER CLASS TESTS', function() {
   // let 
   beforeEach(() => {
     
