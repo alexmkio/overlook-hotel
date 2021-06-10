@@ -8,6 +8,9 @@ class Hotel {
   checkDateFormat(date) {
 
   }
+  returnIndexOfUser(userID) {
+    return this.customers.indexOf(this.customers.find(customer => customer.id === userID));
+  }
   showAvailableRooms(date) {
     let unavailableRooms = this.bookings.reduce((newArray, currentBooking) => {
       if (currentBooking.date === date) {
