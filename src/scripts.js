@@ -4,6 +4,7 @@ import { fetchApiData } from './apiCalls';
 // import { fetchApiData, postApiData } from './apiCalls';
 // import Hotel from './Hotel';
 // import Customer from './Customer';
+let customersData, roomsData, bookingsData, hotel
 
 
 
@@ -16,26 +17,17 @@ function getData() {
 function fetchData() {
   getData()
   .then((promiseArray) => {
-    // userData = promiseArray[0].userData;
-    // sleepData = promiseArray[1].sleepData;
-    // activityData = promiseArray[2].activityData;
-    // hydrationData = promiseArray[3].hydrationData;
+    customersData = promiseArray[0].customers;
+    roomsData = promiseArray[1].rooms;
+    bookingsData = promiseArray[2].bookings;
     // instantiateData()
     // populateDOM()
   });
 };
 
 // function instantiateData() {
-//   let usersData = userData.map(user => {
-//     return new User(user);
+//   let instantiationsOfCustomer = customersData.map(customer => {
+//     return new Customer(customer);
 //   });
-//   userRepository = new UserRepository(usersData, sleepData, activityData, hydrationData);
-
-//   userRepository.updateUsersSleep();
-//   userRepository.updateUsersActivity();
-//   userRepository.updateUsersHydration();
-//   user = userRepository.users[0];
-//   user.findTrendingStepDays();
-//   user.findTrendingStairsDays();
-//   user.findFriendsNames(userRepository.users);
+//   hotel = new Hotel(instantiationsOfCustomer, sleepData, activityData, hydrationData);
 // }
