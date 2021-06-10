@@ -1,12 +1,15 @@
 import './sass/index.scss';
 import domUpdates from './domUpdates';
-import { fetchApiData, postApiData } from './apiCalls';
+import { fetchApiData, postApiData, deleteApiData } from './apiCalls';
 // import Hotel from './Hotel';
 // import Customer from './Customer';
 let customersData, roomsData, bookingsData, hotel
 
-let submitButton = document.querySelector('#submitButton');
-submitButton.addEventListener('click', createPostObject);
+let postButton = document.querySelector('#postButton');
+postButton.addEventListener('click', createPostObject);
+
+let deleteButton = document.querySelector('#deleteButton');
+deleteButton.addEventListener('click', deleteBooking);
 
 window.addEventListener('load', fetchData);
 
@@ -24,13 +27,6 @@ function fetchData() {
     // populateDOM()
   });
 };
-
-// function instantiateData() {
-//   let instantiationsOfCustomer = customersData.map(customer => {
-//     return new Customer(customer);
-//   });
-//   hotel = new Hotel(instantiationsOfCustomer, sleepData, activityData, hydrationData);
-// }
 
 function createPostObject() {
   let booking = {
@@ -55,11 +51,26 @@ function postData(postObject) {
   })
 }
 
+function deleteBooking() {
+  deleteApiData('5fwrgu4i7k55hl6sz')
+  .then((response) => {
+    if (!response.ok) {
+      throw Error(response.statusText);
+    } else {
+      renderSuccessfulPost();
+    }
+  })
+  .catch(error => {
+    showPostMessage('fail', error)
+  })
+}
+
 function renderSuccessfulPost() {
   showPostMessage('success')
   fetchApiData('bookings')
   .then((data) => {
     bookingsData = data;
+    console.log(bookingsData)
     // instantiateData();
     // populateDOM();
   })
@@ -71,3 +82,10 @@ function showPostMessage(status, responseStatus) {
   }
   console.log('STATUS', status)
 }
+
+// function instantiateData() {
+//   let instantiationsOfCustomer = customersData.map(customer => {
+//     return new Customer(customer);
+//   });
+//   hotel = new Hotel(instantiationsOfCustomer, sleepData, activityData, hydrationData);
+// }

@@ -13,3 +13,12 @@ export const postApiData = (postObject) => {
     }
   })
 }
+
+export const deleteApiData = (id) => {
+  return fetch(`http://localhost:3001/api/v1/bookings/${id}`, {
+    method: 'DELETE',
+    headers: {
+      'Content-type': 'application/json'
+    }
+  })
+}
