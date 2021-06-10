@@ -8,15 +8,15 @@ class Hotel {
   checkDateFormat(date) {
     let split = date.split('/')
     if (split[0].length !== 4) {
-      return 'Bad Format'
+      return 'Bad Date Format'
     }
   }
   returnIndexOfUser(userID) {
     return this.customers.indexOf(this.customers.find(customer => customer.id === userID));
   }
   showAvailableRooms(date) {
-    if (this.checkDateFormat(date) === 'Bad Format') {
-      return 'Bad Format'
+    if (this.checkDateFormat(date) === 'Bad Date Format') {
+      return 'Bad Date Format'
     }
     let unavailableRooms = this.bookings.reduce((newArray, currentBooking) => {
       if (currentBooking.date === date) {
