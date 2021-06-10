@@ -30,7 +30,14 @@ class Hotel {
     })
   }
   calculateUserSpending(userID) {
-
+    return this.rooms.reduce((acc, currentRoom) => {
+      this.customers[this.returnIndexOfUser(userID)].bookings.forEach(booking => {
+        if (currentRoom.number === booking.roomNumber) {
+          acc += currentRoom.costPerNight
+        }
+      })
+      return Math.round(acc * 100) / 100
+    },0)
   }
 }
 

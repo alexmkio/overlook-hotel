@@ -64,4 +64,11 @@ describe('HOTEL CLASS TESTS', function() {
     expect(hotel.customers[2].bookings).to.deep.equal([bookings[4],bookings[5]]);
   });
 
+  it('Given a userID, should calculate their spending for all the rooms they\'ve booked past/present/future', () => {
+    hotel.assignUsersBookings(1)
+    hotel.assignUsersBookings(3)
+    expect(hotel.calculateUserSpending(1)).to.equal(Math.round((358.4 + 429.44) * 100) / 100);
+    expect(hotel.calculateUserSpending(3)).to.equal(Math.round((491.14 + 429.44) * 100) / 100);
+  });
+
   });
