@@ -5,7 +5,13 @@ class Hotel {
     this.customers = customers || [];
   }
   showAvailableRooms(date) {
-
+    let unavailableRooms = this.bookings.reduce((newArray, currentBooking) => {
+      if (currentBooking.date === date) {
+        newArray.push(currentBooking.roomNumber)
+      }
+      return newArray
+    },[])
+    return this.rooms.filter(room => !unavailableRooms.includes(room.number))
   }
   filterRoomsByType(type) {
 

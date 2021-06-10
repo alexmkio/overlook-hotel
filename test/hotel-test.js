@@ -37,4 +37,9 @@ describe('HOTEL CLASS TESTS', function() {
     expect(emptyHotel.customers).to.deep.equal([]);
   });
 
+  it('Given a date, should show what rooms are available', () => {
+    expect(hotel.showAvailableRooms("2020/04/22")).to.deep.equal([rooms[1],rooms[2]]);
+    expect(hotel.showAvailableRooms("2020/04/25")).to.deep.equal(rooms);
+  });
+
   });
