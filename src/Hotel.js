@@ -5,6 +5,9 @@ class Hotel {
     this.customers = customers || [];
     this.roomsAvailable = [];
   }
+  checkDateFormat(date) {
+
+  }
   showAvailableRooms(date) {
     let unavailableRooms = this.bookings.reduce((newArray, currentBooking) => {
       if (currentBooking.date === date) {
@@ -16,7 +19,7 @@ class Hotel {
     return this.roomsAvailable
   }
   filterRoomsByType(type) {
-
+    return this.roomsAvailable.filter(room => room.roomType === type)
   }
   assignUsersBookings(userID) {
 

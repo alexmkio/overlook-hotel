@@ -51,4 +51,10 @@ describe('HOTEL CLASS TESTS', function() {
   //   expect(hotel.showAvailableRooms("2020/04/25")).to.deep.equal(rooms);
   // });
 
+  it('Given a type, should show the available rooms of the same type', () => {
+    hotel.roomsAvailable = rooms;
+    expect(hotel.filterRoomsByType("residential suite")).to.deep.equal([rooms[0]]);
+    expect(hotel.filterRoomsByType("single room")).to.deep.equal([rooms[2],rooms[3]]);
+  });
+
   });
