@@ -3,3 +3,13 @@ export const fetchApiData = (type) => {
     .then(response => response.json())
     .catch(err => console.log("API error"))
 };
+
+export const postApiData = (postObject) => {
+  return fetch(`http://localhost:3001/api/v1/bookings`, {
+    method: 'POST',
+    body: JSON.stringify(postObject),
+    headers: {
+      'Content-type': 'application/json'
+    }
+  })
+}
