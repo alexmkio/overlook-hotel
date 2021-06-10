@@ -37,9 +37,18 @@ describe('HOTEL CLASS TESTS', function() {
     expect(emptyHotel.customers).to.deep.equal([]);
   });
 
+  it('Should have an attribute to store the available rooms that is an empty array by default', () => {
+    expect(hotel.roomsAvailable).to.deep.equal([]);
+  });
+
   it('Given a date, should show what rooms are available', () => {
     expect(hotel.showAvailableRooms("2020/04/22")).to.deep.equal([rooms[1],rooms[2]]);
     expect(hotel.showAvailableRooms("2020/04/25")).to.deep.equal(rooms);
   });
+
+  // it('Given a date not in our format it should return an error', () => {
+  //   expect(hotel.showAvailableRooms("2020/04/22")).to.deep.equal([rooms[1],rooms[2]]);
+  //   expect(hotel.showAvailableRooms("2020/04/25")).to.deep.equal(rooms);
+  // });
 
   });
