@@ -1,0 +1,26 @@
+.hamburger {
+  cursor: pointer;
+  padding-left: 1rem;
+}
+
+.bar1, .bar2, .bar3 {
+  width: 25px;
+  height: 3px;
+  margin: 5px auto;
+  background-color: $primary-font-color;
+  border-radius: 5px;
+  -webkit-transition: all 0.3s ease-in-out;
+  transition: all 0.3s ease-in-out;
+}
+
+.change .bar1 {
+  -webkit-transform: rotate(-45deg) translateY(11px);
+  transform: rotate(-45deg) translateY(11px);
+}
+
+.change .bar2 {opacity: 0;}
+
+.change .bar3 {
+  -webkit-transform: rotate(45deg) translateY(-11px);
+  transform: rotate(45deg) translateY(-11px);
+}

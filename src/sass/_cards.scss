@@ -1,0 +1,101 @@
+.cards {
+  margin: 0 auto;
+  display: grid;
+  grid-gap: 1rem;
+  margin: 1rem;
+}
+
+.card {
+  background-color: $card-bg-color;
+  box-shadow: 1px 0px 4px 3px rgba(0,0,0,0.2);
+  transition: 0.3s;
+  margin: 1rem;
+}
+
+.card:hover {
+  box-shadow: 4px 0px 16px 8px rgba(0,0,0,0.2);
+}
+
+.card-top {
+  position: relative;
+}
+
+.card img {
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+}
+
+.img-gradient {
+  position: relative;
+}
+
+.img-gradient::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(rgba(0, 0, 0, 0.4),rgba(0, 0, 0, 0.4));
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  opacity: 1;
+  display: flex;
+  justify-content: space-between;
+  padding: 1em;
+}
+
+.icon {
+  transform: scaleX(-1);
+  color: $secondary-color;
+  background-color: $card-bg-color;
+  border-radius: 50%;
+  border: 8px solid $card-bg-color;
+  transition: 0.3s;
+}
+
+.icon:hover {
+  transform: scaleX(-1) scale(1.1);
+  color: $secondary-color;
+  background-color: $card-bg-color;
+  border-radius: 50%;
+  border: 8px solid $card-bg-color;
+  cursor: pointer;
+}
+
+.room {
+  & dt {
+    color: $card-bg-color;
+    text-align: right;
+    margin: 0;
+  }
+  & dd {
+    color: $card-bg-color;
+    font-size: 3rem;
+    font-weight: 300;
+    text-align: right;
+  }
+}
+
+.card-content {
+  padding: 0 0.5rem 1rem 0.5rem;
+  color: $card-bg-color;
+}
+
+dt {
+  margin-top: 1rem;
+  font-size: .9rem;
+  text-transform: uppercase;
+  line-height: 1;
+}
+
+dd {
+  font-size: 1.5rem;
+}

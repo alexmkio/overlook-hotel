@@ -1,16 +1,78 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Webpack Starter Kit</title>
-</head>
-<body>
-  <img src="./images/turing-logo.png" alt="turing logo" height="100px" width="100px">
-  
-  <!-- Do not include the index.js or main.bundle.js file here - it is done automatically by the webpack server -->
-  <script src="bundle.js"></script>
-
-</body>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700;900&family=Noto+Serif:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
+    <title>Overlook Hotel</title>
+    <meta name="theme-color" content="#00b686">
+  </head>
+  <body>
+    <header>
+      <section class="hamburger-section">
+        <div class="hamburger" id="hamburger">
+          <div class="bar1"></div>
+          <div class="bar2"></div>
+          <div class="bar3"></div>
+        </div>
+      </section>
+      <section class="nav-and-logo">
+        <nav>
+          <ul>
+            <li>Looking to book? Pick a date:</li>
+            <li>Filter available by:</li>
+          </ul>
+        </nav>
+        <div class="logo">
+          <h1>Overlook Hotel</h1>
+        </div>
+      </section>
+    </header>
+    <main>
+      <h2>Rooms You've Booked</h2>
+      <div class="cards">
+        
+        <acrticle class="card">
+          <section class="card-top">
+            <figure class="img-gradient">
+              <img src="./images/1.jpg">
+            </figure>
+            <section class="overlay">
+              <div>
+                <span class="material-icons-outlined md-48 icon">add</span>
+              </div>
+              <dl class="room">
+                <dt>Room #</dt>
+                <dd>04</dd>
+              </dl>
+            </section>
+          </section>
+          <section class="card-content">
+            <dl>
+              <dt>Room Type</dt>
+              <dd>Residential Suite</dd>
+              <dt>Bed Size and Quantity</dt>
+              <dd>2 Queen Beds</dd>
+            </dl>
+            <section class="link">
+              <dl>
+                <dt>Booked For: </dt>
+                <dd>Date/Date/Date</dd>
+              </dl>
+            </section>
+            <dl>
+              <dt>Cost per night</dt>
+              <dd>$666.66</dd>
+              <dt>Bidet</dt>
+              <dd>True</dd>
+            </dl>
+          </section>
+        </acrticle>
+        
+      </div>      
+    </main>
+    <script src="bundle.js"></script>
+  </body>
 </html>
