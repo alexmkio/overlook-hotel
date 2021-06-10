@@ -57,4 +57,11 @@ describe('HOTEL CLASS TESTS', function() {
     expect(hotel.filterRoomsByType("single room")).to.deep.equal([rooms[2],rooms[3]]);
   });
 
+  it('Given a userID, should update the user\'s .bookings with the rooms they\'ve booked', () => {
+    hotel.assignUsersBookings(1)
+    hotel.assignUsersBookings(3)
+    expect(hotel.customers[0].bookings).to.deep.equal([bookings[0],bookings[1]]);
+    expect(hotel.customers[2].bookings).to.deep.equal([bookings[4],bookings[5]]);
+  });
+
   });

@@ -25,7 +25,9 @@ class Hotel {
     return this.roomsAvailable.filter(room => room.roomType === type)
   }
   assignUsersBookings(userID) {
-
+    this.customers[this.returnIndexOfUser(userID)].bookings = this.bookings.filter(booking => {
+      return booking.userID === userID
+    })
   }
   calculateUserSpending(userID) {
 
