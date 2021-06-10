@@ -6,12 +6,18 @@ class Hotel {
     this.roomsAvailable = [];
   }
   checkDateFormat(date) {
-
+    let split = date.split('/')
+    if (split[0].length !== 4) {
+      return 'Bad Format'
+    }
   }
   returnIndexOfUser(userID) {
     return this.customers.indexOf(this.customers.find(customer => customer.id === userID));
   }
   showAvailableRooms(date) {
+    if (this.checkDateFormat(date) === 'Bad Format') {
+      return 'Bad Format'
+    }
     let unavailableRooms = this.bookings.reduce((newArray, currentBooking) => {
       if (currentBooking.date === date) {
         newArray.push(currentBooking.roomNumber)

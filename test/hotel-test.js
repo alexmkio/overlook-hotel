@@ -46,10 +46,10 @@ describe('HOTEL CLASS TESTS', function() {
     expect(hotel.showAvailableRooms("2020/04/25")).to.deep.equal(rooms);
   });
 
-  // it('Given a date not in our format it should return an error', () => {
-  //   expect(hotel.showAvailableRooms("2020/04/22")).to.deep.equal([rooms[1],rooms[2]]);
-  //   expect(hotel.showAvailableRooms("2020/04/25")).to.deep.equal(rooms);
-  // });
+  it('Given a date not in our format it should return an error', () => {
+    expect(hotel.showAvailableRooms("2020/04/22")).to.deep.equal([rooms[1],rooms[2]]);
+    expect(hotel.showAvailableRooms("04/22/2020")).to.equal('Bad Format');
+  });
 
   it('Given a type, should show the available rooms of the same type', () => {
     hotel.roomsAvailable = rooms;
