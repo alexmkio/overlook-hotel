@@ -3,7 +3,7 @@ import domUpdates from './domUpdates';
 import { fetchApiData, postApiData, deleteApiData } from './apiCalls';
 import Hotel from './Hotel';
 import Customer from './Customer';
-let customersData, roomsData, bookingsData, hotel, currentCustomer
+let customersData, roomsData, bookingsData, hotel, currentCustomer, lookingForDate
 
 // let postButton = document.querySelector('#postButton');
 // postButton.addEventListener('click', createPostObject);
@@ -23,17 +23,13 @@ let inAYearFormatted = (today.getFullYear()+1)+'-'+('0' + (today.getMonth()+1)).
 const datePicker = document.querySelector('input[type="date"]');
 datePicker.min = todayFormatted;
 datePicker.max = inAYearFormatted;
-// datePicker.addEventListener('change', (event) => {
-//   console.log(event.target.value);
-// });
-
 datePicker.addEventListener('change', function(event) {
-  getAvailableRooms(event)
+  setDateLookingForRoom(event)
 });
 
 const roomTypeSelector = document.querySelector('#typeSelect');
-roomTypeSelector.addEventListener('change', (event) => {
-  console.log(event.target.value);
+roomTypeSelector.addEventListener('change', function(event) {
+  filterAvailableRooms(event)
 });
 
 window.addEventListener('load', fetchData);
@@ -169,17 +165,31 @@ function showCustomerBookings() {
   });
 };
 
-function getAvailableRooms(event) {
-  let availableRooms = hotel.showAvailableRooms(event.target.value.replaceAll('-', '/'))
+function setDateLookingForRoom(event) {
+  lookingForDate = event.target.value.replaceAll('-', '/')
+  getAvailableRooms()
+}
+
+function getAvailableRooms() {
+  let availableRooms = hotel.showAvailableRooms(lookingForDate)
   showAvailableRooms(availableRooms)
 }
 
-function showAvailableRooms(availableRooms) {
+function filterAvailableRooms(event) {
+  if (event.target.value === 'all') {
+    getAvailableRooms()
+  } else {
+    let filteredRooms = hotel.filterRoomsByType(event.target.value)
+    showAvailableRooms(filteredRooms)
+  }
+}
+
+function showAvailableRooms(rooms) {
   hide(customerBookingsSection)
   show(availableRoomsSection)
   availableRoomsCards.innerHTML = '';
 
-  availableRooms.forEach(room => {
+  rooms.forEach(room => {
     availableRoomsCards.innerHTML +=
     `<acrticle class="card">
       <section class="card-top">
