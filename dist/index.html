@@ -14,15 +14,21 @@
       <h1>Overlook Hotel</h1>
       <section class="filter">
         <form>
-          <label>
-            Look at rooms available on the following date:
-            <input type="date" name="party" min="2021-06-15" max="2023-06-15" required>
-            <span class="validity"></span>
-          </label>
+          <label for="datePicker">Look at rooms available on the following date:</label>
+          <input type="date" id="datePicker" required>
+          <span class="validity"></span>
           <p>
             <button>Submit</button>
           </p>
         </form>
+        <label for="typeSelect">Filter available rooms by type:</label>
+        <select name="pets" id="typeSelect" required>
+          <option value="">--Please choose an option--</option>
+          <option value="residential suite">residential suite</option>
+          <option value="suite">suite</option>
+          <option value="single room">single room</option>
+          <option value="junior suite">junior suite</option>
+        </select>
         <h2>Pick a date to look at available rooms</h2>
         <h2>Filter available rooms by type</h2>
       </section>
