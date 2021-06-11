@@ -172,7 +172,7 @@ function setDateLookingForRoom(event) {
 
 function getAvailableRooms() {
   let availableRooms = hotel.showAvailableRooms(lookingForDate)
-  showAvailableRooms(availableRooms)
+  checkIfNoRooms(availableRooms, 'date')
 }
 
 function filterAvailableRooms(event) {
@@ -180,7 +180,15 @@ function filterAvailableRooms(event) {
     getAvailableRooms()
   } else {
     let filteredRooms = hotel.filterRoomsByType(event.target.value)
-    showAvailableRooms(filteredRooms)
+    checkIfNoRooms(filteredRooms, 'filter')
+  }
+}
+
+function checkIfNoRooms(rooms, type) {
+  if (rooms) {
+    showAvailableRooms(rooms)
+  } else {
+    showErrorMsg(type)
   }
 }
 
@@ -188,7 +196,6 @@ function showAvailableRooms(rooms) {
   hide(customerBookingsSection)
   show(availableRoomsSection)
   availableRoomsCards.innerHTML = '';
-
   rooms.forEach(room => {
     availableRoomsCards.innerHTML +=
     `<acrticle class="card">
@@ -222,6 +229,10 @@ function showAvailableRooms(rooms) {
       </section>
     </acrticle>`
   })
+}
+
+function showErrorMsg(type) {
+ console.log(type)
 }
 
 function hide(e) {
