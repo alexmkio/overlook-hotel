@@ -16,6 +16,7 @@ const availableRoomsSection = document.querySelector('#availableRoomsSection');
 const previousBookingsSection = document.querySelector('#bookedRooms');
 const availableRoomsCards = document.querySelector('#availableRoomsCards');
 const totalSpent = document.querySelector('#totalSpent');
+const roomsAvailableFor = document.querySelector('#roomsAvailableFor');
 
 let today = new Date();
 let todayFormatted = today.getFullYear()+'-'+('0' + (today.getMonth()+1)).slice(-2)+'-'+('0' + today.getDate()).slice(-2);
@@ -195,6 +196,7 @@ function checkIfNoRooms(rooms, type) {
 function showAvailableRooms(rooms) {
   hide(customerBookingsSection)
   show(availableRoomsSection)
+  roomsAvailableFor.innerText = `Available rooms for ${lookingForDate}`
   availableRoomsCards.innerHTML = '';
   rooms.forEach(room => {
     availableRoomsCards.innerHTML +=
