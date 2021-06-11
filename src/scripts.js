@@ -25,6 +25,7 @@ const datePicker = document.querySelector('input[type="date"]');
 datePicker.min = todayFormatted;
 datePicker.max = inAYearFormatted;
 datePicker.addEventListener('change', function(event) { setDateLookingForRoom(event) });
+
 const roomTypeSelector = document.querySelector('#typeSelect');
 roomTypeSelector.addEventListener('change', function(event) { filterAvailableRooms(event) });
 
@@ -92,7 +93,7 @@ function renderSuccessfulPost() {
   showPostMessage('success')
   fetchApiData('bookings')
   .then((data) => {
-    bookingsData = data;
+    bookingsData = data.bookings;
     instantiateData();
     updateCustomerBookings()
   })
