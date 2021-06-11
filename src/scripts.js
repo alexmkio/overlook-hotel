@@ -11,7 +11,10 @@ let customersData, roomsData, bookingsData, hotel, currentCustomer
 // let deleteButton = document.querySelector('#deleteButton');
 // deleteButton.addEventListener('click', deleteBooking);
 
-const previousBookingsSection = document.querySelector('#cards');
+const customerBookingsSection = document.querySelector('#customerBookings');
+const availableRoomsSection = document.querySelector('#availableRoomsSection');
+const previousBookingsSection = document.querySelector('#bookedRooms');
+const availableRoomsCards = document.querySelector('#availableRoomsCards');
 const totalSpent = document.querySelector('#totalSpent');
 
 let today = new Date();
@@ -20,8 +23,12 @@ let inAYearFormatted = (today.getFullYear()+1)+'-'+('0' + (today.getMonth()+1)).
 const datePicker = document.querySelector('input[type="date"]');
 datePicker.min = todayFormatted;
 datePicker.max = inAYearFormatted;
-datePicker.addEventListener('change', (event) => {
-  console.log(event.target.value);
+// datePicker.addEventListener('change', (event) => {
+//   console.log(event.target.value);
+// });
+
+datePicker.addEventListener('change', function(event) {
+  getAvailableRooms(event)
 });
 
 const roomTypeSelector = document.querySelector('#typeSelect');
@@ -160,4 +167,57 @@ function showCustomerBookings() {
       </section>
     </acrticle>`
   });
+};
+
+function getAvailableRooms(event) {
+  let availableRooms = hotel.showAvailableRooms(event.target.value.replaceAll('-', '/'))
+  showAvailableRooms(availableRooms)
+}
+
+function showAvailableRooms(availableRooms) {
+  hide(customerBookingsSection)
+  show(availableRoomsSection)
+  availableRoomsCards.innerHTML = '';
+
+  availableRooms.forEach(room => {
+    availableRoomsCards.innerHTML +=
+    `<acrticle class="card">
+      <section class="card-top">
+        <figure class="img-gradient">
+          <img src="./images/1.jpg">
+        </figure>
+        <section class="overlay">
+          <div>
+            <span class="material-icons-outlined md-48 icon">add</span>
+          </div>
+          <dl class="room">
+            <dt>Room #</dt>
+            <dd>${room.number}</dd>
+          </dl>
+        </section>
+      </section>
+      <section class="card-content">
+        <dl>
+          <dt>Room Type</dt>
+          <dd>${room.roomType}</dd>
+          <dt>Bed Size and Quantity</dt>
+          <dd>${room.numBeds} ${room.bedSize}</dd>
+        </dl>
+        <dl>
+          <dt>Cost per night</dt>
+          <dd>$${room.costPerNight}</dd>
+          <dt>Bidet</dt>
+          <dd>${room.bidet}</dd>
+        </dl>
+      </section>
+    </acrticle>`
+  })
+}
+
+function hide(e) {
+  e.classList.add('hide');
+};
+
+function show(e) {
+  e.classList.remove('hide');
 };
