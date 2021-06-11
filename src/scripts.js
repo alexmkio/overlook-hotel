@@ -3,7 +3,7 @@ import domUpdates from './domUpdates';
 import { fetchApiData, postApiData, deleteApiData } from './apiCalls';
 import Hotel from './Hotel';
 import Customer from './Customer';
-let customersData, roomsData, bookingsData, hotel, currentCustomer
+let customersData, roomsData, bookingsData, hotel, currentCustomer, lookingForDate
 
 // let postButton = document.querySelector('#postButton');
 // postButton.addEventListener('click', createPostObject);
@@ -11,8 +11,12 @@ let customersData, roomsData, bookingsData, hotel, currentCustomer
 // let deleteButton = document.querySelector('#deleteButton');
 // deleteButton.addEventListener('click', deleteBooking);
 
-const previousBookingsSection = document.querySelector('#cards');
+const customerBookingsSection = document.querySelector('#customerBookings');
+const availableRoomsSection = document.querySelector('#availableRoomsSection');
+const previousBookingsSection = document.querySelector('#bookedRooms');
+const availableRoomsCards = document.querySelector('#availableRoomsCards');
 const totalSpent = document.querySelector('#totalSpent');
+const roomsAvailableFor = document.querySelector('#roomsAvailableFor');
 
 let today = new Date();
 let todayFormatted = today.getFullYear()+'-'+('0' + (today.getMonth()+1)).slice(-2)+'-'+('0' + today.getDate()).slice(-2);
@@ -20,13 +24,13 @@ let inAYearFormatted = (today.getFullYear()+1)+'-'+('0' + (today.getMonth()+1)).
 const datePicker = document.querySelector('input[type="date"]');
 datePicker.min = todayFormatted;
 datePicker.max = inAYearFormatted;
-datePicker.addEventListener('change', (event) => {
-  console.log(event.target.value);
+datePicker.addEventListener('change', function(event) {
+  setDateLookingForRoom(event)
 });
 
 const roomTypeSelector = document.querySelector('#typeSelect');
-roomTypeSelector.addEventListener('change', (event) => {
-  console.log(event.target.value);
+roomTypeSelector.addEventListener('change', function(event) {
+  filterAvailableRooms(event)
 });
 
 window.addEventListener('load', fetchData);
@@ -160,4 +164,83 @@ function showCustomerBookings() {
       </section>
     </acrticle>`
   });
+};
+
+function setDateLookingForRoom(event) {
+  lookingForDate = event.target.value.replaceAll('-', '/')
+  getAvailableRooms()
+}
+
+function getAvailableRooms() {
+  let availableRooms = hotel.showAvailableRooms(lookingForDate)
+  checkIfNoRooms(availableRooms, 'date')
+}
+
+function filterAvailableRooms(event) {
+  if (event.target.value === 'all') {
+    getAvailableRooms()
+  } else {
+    let filteredRooms = hotel.filterRoomsByType(event.target.value)
+    checkIfNoRooms(filteredRooms, 'filter')
+  }
+}
+
+function checkIfNoRooms(rooms, type) {
+  if (rooms) {
+    showAvailableRooms(rooms)
+  } else {
+    showErrorMsg(type)
+  }
+}
+
+function showAvailableRooms(rooms) {
+  hide(customerBookingsSection)
+  show(availableRoomsSection)
+  roomsAvailableFor.innerText = `Available rooms for ${lookingForDate}`
+  availableRoomsCards.innerHTML = '';
+  rooms.forEach(room => {
+    availableRoomsCards.innerHTML +=
+    `<acrticle class="card">
+      <section class="card-top">
+        <figure class="img-gradient">
+          <img src="./images/1.jpg">
+        </figure>
+        <section class="overlay">
+          <div>
+            <span class="material-icons-outlined md-48 icon">add</span>
+          </div>
+          <dl class="room">
+            <dt>Room #</dt>
+            <dd>${room.number}</dd>
+          </dl>
+        </section>
+      </section>
+      <section class="card-content">
+        <dl>
+          <dt>Room Type</dt>
+          <dd>${room.roomType}</dd>
+          <dt>Bed Size and Quantity</dt>
+          <dd>${room.numBeds} ${room.bedSize}</dd>
+        </dl>
+        <dl>
+          <dt>Cost per night</dt>
+          <dd>$${room.costPerNight}</dd>
+          <dt>Bidet</dt>
+          <dd>${room.bidet}</dd>
+        </dl>
+      </section>
+    </acrticle>`
+  })
+}
+
+function showErrorMsg(type) {
+ console.log(type)
+}
+
+function hide(e) {
+  e.classList.add('hide');
+};
+
+function show(e) {
+  e.classList.remove('hide');
 };

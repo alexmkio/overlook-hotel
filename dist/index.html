@@ -18,6 +18,21 @@
           <input type="date" id="datePicker" required>
           <span class="validity"></span>
         </form>
+      </section>
+    </header>
+    <main>
+
+      <section id="customerBookings">
+        <dl>
+          <dt>Total amount you've spent on rooms: $</dt>
+          <dd id="totalSpent"></dd>
+        </dl>
+        <h2>Rooms you've booked</h2>
+        <section class="cards" id="bookedRooms">
+        </section>      
+      </section>
+
+      <section id="availableRoomsSection">
         <form>
           <label for="typeSelect">Filter available rooms by type:</label>
           <select id="typeSelect" required>
@@ -29,56 +44,12 @@
             <option value="all">All Available</option>
           </select>
         </form>
+        <h2 id="roomsAvailableFor"></h2>
+        <section class="cards" id="availableRoomsCards">
+        </section> 
+        </section>  
       </section>
-    </header>
-    <main>
-      <section>
-        <dl>
-          <dt>Total amount you've spent on rooms: $</dt>
-          <dd id="totalSpent"></dd>
-        </dl>
-        <h2>Rooms you've booked</h2>
-        <section class="cards" id="cards">
-          
-          <acrticle class="card">
-            <section class="card-top">
-              <figure class="img-gradient">
-                <img src="./images/1.jpg">
-              </figure>
-              <section class="overlay">
-                <div>
-                  <span class="material-icons-outlined md-48 icon">add</span>
-                </div>
-                <dl class="room">
-                  <dt>Room #</dt>
-                  <dd>04</dd>
-                </dl>
-              </section>
-            </section>
-            <section class="card-content">
-              <dl>
-                <dt>Room Type</dt>
-                <dd>Residential Suite</dd>
-                <dt>Bed Size and Quantity</dt>
-                <dd>2 Queen Beds</dd>
-              </dl>
-              <section class="link">
-                <dl>
-                  <dt>Booked For: </dt>
-                  <dd>Date/Date/Date</dd>
-                </dl>
-              </section>
-              <dl>
-                <dt>Cost per night</dt>
-                <dd>$666.66</dd>
-                <dt>Bidet</dt>
-                <dd>True</dd>
-              </dl>
-            </section>
-          </acrticle>
-  
-        </section>      
-      </section>
+
     </main>
     <script src="bundle.js"></script>
   </body>
