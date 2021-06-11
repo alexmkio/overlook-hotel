@@ -24,13 +24,14 @@ let inAYearFormatted = (today.getFullYear()+1)+'-'+('0' + (today.getMonth()+1)).
 const datePicker = document.querySelector('input[type="date"]');
 datePicker.min = todayFormatted;
 datePicker.max = inAYearFormatted;
-datePicker.addEventListener('change', function(event) {
-  setDateLookingForRoom(event)
-});
-
+datePicker.addEventListener('change', function(event) { setDateLookingForRoom(event) });
 const roomTypeSelector = document.querySelector('#typeSelect');
-roomTypeSelector.addEventListener('change', function(event) {
-  filterAvailableRooms(event)
+roomTypeSelector.addEventListener('change', function(event) { filterAvailableRooms(event) });
+
+availableRoomsCards.addEventListener('click', function(event) {
+  if (event.target.id > 0 && event.target.id <= 25) {
+    createPostObject(event.target.id)
+  }
 });
 
 window.addEventListener('load', fetchData);
@@ -50,11 +51,11 @@ function fetchData() {
   });
 };
 
-function createPostObject() {
+function createPostObject(roomNum) {
   let booking = {
-    "userID": 9,
-    "date": "2021/04/22",
-    "roomNumber": 15,
+    "userID": currentCustomer.id,
+    "date": lookingForDate,
+    "roomNumber": parseInt(roomNum),
   }
   postData(booking)
 }
@@ -123,6 +124,8 @@ function showTotalSpent() {
 }
 
 function showCustomerBookings() {
+  hide(availableRoomsSection)
+  show(customerBookingsSection)
   previousBookingsSection.innerHTML = '';
   currentCustomer.bookings.forEach(booking => {
     let matchingRoom = hotel.rooms.find(room => room.number === booking.roomNumber)
@@ -133,9 +136,6 @@ function showCustomerBookings() {
           <img src="./images/1.jpg">
         </figure>
         <section class="overlay">
-          <div>
-            <span class="material-icons-outlined md-48 icon">add</span>
-          </div>
           <dl class="room">
             <dt>Room #</dt>
             <dd>${booking.roomNumber}</dd>
@@ -207,7 +207,7 @@ function showAvailableRooms(rooms) {
         </figure>
         <section class="overlay">
           <div>
-            <span class="material-icons-outlined md-48 icon">add</span>
+            <span class="material-icons-outlined md-48 icon" id="${room.number}">add</span>
           </div>
           <dl class="room">
             <dt>Room #</dt>
