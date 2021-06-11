@@ -5,11 +5,11 @@ import Hotel from './Hotel';
 import Customer from './Customer';
 let customersData, roomsData, bookingsData, hotel
 
-let postButton = document.querySelector('#postButton');
-postButton.addEventListener('click', createPostObject);
+// let postButton = document.querySelector('#postButton');
+// postButton.addEventListener('click', createPostObject);
 
-let deleteButton = document.querySelector('#deleteButton');
-deleteButton.addEventListener('click', deleteBooking);
+// let deleteButton = document.querySelector('#deleteButton');
+// deleteButton.addEventListener('click', deleteBooking);
 
 window.addEventListener('load', fetchData);
 
