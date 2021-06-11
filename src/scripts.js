@@ -9,3 +9,6 @@ var inAYearFormatted = (today.getFullYear()+1)+'-'+('0' + (today.getMonth()+1)).
 var dateControl = document.querySelector('input[type="date"]');
 dateControl.min = todayFormatted;
 dateControl.max = inAYearFormatted;
+dateControl.addEventListener('change', (event) => {
+  console.log(event.target.value);
+});
