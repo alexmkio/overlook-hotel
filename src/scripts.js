@@ -23,7 +23,7 @@ function fetchData() {
     customersData = promiseArray[0].customers;
     roomsData = promiseArray[1].rooms;
     bookingsData = promiseArray[2].bookings;
-    // instantiateData()
+    instantiateData()
     // populateDOM()
   });
 };
@@ -83,12 +83,12 @@ function showPostMessage(status, responseStatus) {
   console.log('STATUS', status)
 }
 
-// function instantiateData() {
-//   let instantiationsOfCustomer = customersData.map(customer => {
-//     return new Customer(customer);
-//   });
-//   hotel = new Hotel(instantiationsOfCustomer, sleepData, activityData, hydrationData);
-// }
+function instantiateData() {
+  let instantiationsOfCustomer = customersData.map(customer => {
+    return new Customer(customer);
+  });
+  hotel = new Hotel(roomsData, bookingsData, instantiationsOfCustomer);
+}
 
 let today = new Date();
 let todayFormatted = today.getFullYear()+'-'+('0' + (today.getMonth()+1)).slice(-2)+'-'+('0' + today.getDate()).slice(-2);
