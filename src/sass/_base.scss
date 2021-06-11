@@ -7,7 +7,7 @@
 
 body { 
   min-height: 100vh;
-  // min-width: 100vw;
+  min-width: 100vw;
   display: flex;
   flex-direction: column;
 }
@@ -16,13 +16,22 @@ header {
   background: $primary-color;
   position: sticky;
   position: -webkit-sticky;
+  z-index: 2;
   top: 0;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+}
+
+.filter {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: $primary-dk-color;
+  width: 100%;
 }
 
 main { 
   flex: 1;
   background: $primary-lt-color;
-  padding: 1rem; 
 }
