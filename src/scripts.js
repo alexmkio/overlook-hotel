@@ -1,7 +1,4 @@
 import './sass/index.scss';
-// import domUpdates from './domUpdates';
-// import { fetchApiData, postApiData } from './apiCalls';
-// const dayjs = require('dayjs')
 
 let today = new Date();
 let todayFormatted = today.getFullYear()+'-'+('0' + (today.getMonth()+1)).slice(-2)+'-'+('0' + today.getDate()).slice(-2);
