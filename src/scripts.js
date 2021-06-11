@@ -12,6 +12,7 @@ let customersData, roomsData, bookingsData, hotel, currentCustomer
 // deleteButton.addEventListener('click', deleteBooking);
 
 const previousBookingsSection = document.querySelector('#cards');
+const totalSpent = document.querySelector('#totalSpent');
 
 let today = new Date();
 let todayFormatted = today.getFullYear()+'-'+('0' + (today.getMonth()+1)).slice(-2)+'-'+('0' + today.getDate()).slice(-2);
@@ -41,8 +42,7 @@ function fetchData() {
     roomsData = promiseArray[1].rooms;
     bookingsData = promiseArray[2].bookings;
     instantiateData()
-    showTotalSpent()
-    showCustomerBookings()
+    updateCustomerBookings()
   });
 };
 
@@ -89,8 +89,7 @@ function renderSuccessfulPost() {
   .then((data) => {
     bookingsData = data;
     instantiateData();
-    showTotalSpent()
-    showCustomerBookings()
+    updateCustomerBookings()
   })
 }
 
@@ -109,13 +108,18 @@ function instantiateData() {
   currentCustomer = hotel.customers[0]
 }
 
-function showTotalSpent() {
+function updateCustomerBookings() {
+  hotel.assignUsersBookings(currentCustomer.id)
+  showTotalSpent()
+  showCustomerBookings()
+}
 
+function showTotalSpent() {
+  totalSpent.innerText = hotel.calculateUserSpending(currentCustomer.id)
 }
 
 function showCustomerBookings() {
   previousBookingsSection.innerHTML = '';
-  hotel.assignUsersBookings(currentCustomer.id)
   currentCustomer.bookings.forEach(booking => {
     let matchingRoom = hotel.rooms.find(room => room.number === booking.roomNumber)
     previousBookingsSection.innerHTML +=
@@ -149,7 +153,7 @@ function showCustomerBookings() {
         </section>
         <dl>
           <dt>Cost per night</dt>
-          <dd>$ ${matchingRoom.costPerNight}</dd>
+          <dd>$${matchingRoom.costPerNight}</dd>
           <dt>Bidet</dt>
           <dd>${matchingRoom.bidet}</dd>
         </dl>
