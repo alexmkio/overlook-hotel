@@ -169,6 +169,7 @@ function showCustomerBookings() {
 
 function setDateLookingForRoom(event) {
   lookingForDate = event.target.value.replaceAll('-', '/')
+  datePicker.value = ''
   getAvailableRooms()
 }
 
