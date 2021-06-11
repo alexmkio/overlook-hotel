@@ -17,20 +17,18 @@
           <label for="datePicker">Look at rooms available on the following date:</label>
           <input type="date" id="datePicker" required>
           <span class="validity"></span>
-          <p>
-            <button>Submit</button>
-          </p>
         </form>
-        <label for="typeSelect">Filter available rooms by type:</label>
-        <select name="pets" id="typeSelect" required>
-          <option value="">--Please choose an option--</option>
-          <option value="residential suite">residential suite</option>
-          <option value="suite">suite</option>
-          <option value="single room">single room</option>
-          <option value="junior suite">junior suite</option>
-        </select>
-        <h2>Pick a date to look at available rooms</h2>
-        <h2>Filter available rooms by type</h2>
+        <form>
+          <label for="typeSelect">Filter available rooms by type:</label>
+          <select id="typeSelect" required>
+            <option selected="true" disabled="disabled">--Choose an option--</option>
+            <option value="residential suite">Residential Suite</option>
+            <option value="suite">Suite</option>
+            <option value="single room">Single Room</option>
+            <option value="junior suite">Junior Suite</option>
+            <option value="all">All Available</option>
+          </select>
+        </form>
       </section>
     </header>
     <main>
