@@ -1,8 +1,8 @@
 import './sass/index.scss';
 import domUpdates from './domUpdates';
 import { fetchApiData, postApiData, deleteApiData } from './apiCalls';
-// import Hotel from './Hotel';
-// import Customer from './Customer';
+import Hotel from './Hotel';
+import Customer from './Customer';
 let customersData, roomsData, bookingsData, hotel
 
 let postButton = document.querySelector('#postButton');
@@ -89,3 +89,18 @@ function showPostMessage(status, responseStatus) {
 //   });
 //   hotel = new Hotel(instantiationsOfCustomer, sleepData, activityData, hydrationData);
 // }
+
+let today = new Date();
+let todayFormatted = today.getFullYear()+'-'+('0' + (today.getMonth()+1)).slice(-2)+'-'+('0' + today.getDate()).slice(-2);
+let inAYearFormatted = (today.getFullYear()+1)+'-'+('0' + (today.getMonth()+1)).slice(-2)+'-'+('0' + today.getDate()).slice(-2);
+const datePicker = document.querySelector('input[type="date"]');
+datePicker.min = todayFormatted;
+datePicker.max = inAYearFormatted;
+datePicker.addEventListener('change', (event) => {
+  console.log(event.target.value);
+});
+
+const roomTypeSelector = document.querySelector('#typeSelect');
+roomTypeSelector.addEventListener('change', (event) => {
+  console.log(event.target.value);
+});

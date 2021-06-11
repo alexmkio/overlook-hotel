@@ -1,18 +1,82 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Overlook Hotel</title>
-</head>
-<body>
-  <form action="index.html" method="post">
-    <button type="button" name="button" id="postButton">POST</button>
-  </form>
-  <form action="index.html" method="delete">
-    <button type="button" name="button" id="deleteButton">DELETE</button>
-  </form>
-  <script src="bundle.js"></script>
-</body>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700;900&family=Noto+Serif:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
+    <title>Overlook Hotel</title>
+    <meta name="theme-color" content="#00b686">
+  </head>
+  <body>
+    <header>
+      <h1>Overlook Hotel</h1>
+      <section class="filter">
+        <form>
+          <label for="datePicker">Look at rooms available on the following date:</label>
+          <input type="date" id="datePicker" required>
+          <span class="validity"></span>
+        </form>
+        <form>
+          <label for="typeSelect">Filter available rooms by type:</label>
+          <select id="typeSelect" required>
+            <option selected="true" disabled="disabled">--Choose an option--</option>
+            <option value="residential suite">Residential Suite</option>
+            <option value="suite">Suite</option>
+            <option value="single room">Single Room</option>
+            <option value="junior suite">Junior Suite</option>
+            <option value="all">All Available</option>
+          </select>
+        </form>
+      </section>
+    </header>
+    <main>
+      <section>
+        <h2>Total amount you've spent on rooms: <div></div></h2>
+        <h2>Rooms you've booked</h2>
+        <section class="cards">
+          
+          <acrticle class="card">
+            <section class="card-top">
+              <figure class="img-gradient">
+                <img src="./images/01.jpg">
+              </figure>
+              <section class="overlay">
+                <div>
+                  <span class="material-icons-outlined md-48 icon">add</span>
+                </div>
+                <dl class="room">
+                  <dt>Room #</dt>
+                  <dd>04</dd>
+                </dl>
+              </section>
+            </section>
+            <section class="card-content">
+              <dl>
+                <dt>Room Type</dt>
+                <dd>Residential Suite</dd>
+                <dt>Bed Size and Quantity</dt>
+                <dd>2 Queen Beds</dd>
+              </dl>
+              <section class="link">
+                <dl>
+                  <dt>Booked For: </dt>
+                  <dd>Date/Date/Date</dd>
+                </dl>
+              </section>
+              <dl>
+                <dt>Cost per night</dt>
+                <dd>$666.66</dd>
+                <dt>Bidet</dt>
+                <dd>True</dd>
+              </dl>
+            </section>
+          </acrticle>
+  
+        </section>      
+      </section>
+    </main>
+    <script src="bundle.js"></script>
+  </body>
 </html>
