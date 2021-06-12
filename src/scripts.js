@@ -3,6 +3,7 @@ import domUpdates from './domUpdates';
 import { fetchApiData, postApiData, deleteApiData } from './apiCalls';
 import Hotel from './Hotel';
 import Customer from './Customer';
+import { users } from './data/users'
 let customersData, roomsData, bookingsData, hotel, currentCustomer, lookingForDate
 
 const filterSection = document.querySelector('#filterSection');
@@ -42,13 +43,17 @@ window.addEventListener('load', fetchData);
 
 function determineUser(event) {
   event.preventDefault()
+  if (!validateUser(usrname.value, psw.value)) {
+    showMsg('password')
+    usrname.value = '';
+    psw.value = '';
+    return
+  }
   if (usrname.value.startsWith('customer')) {
     let customerID = parseInt(usrname.value.slice(-2))
     let customerIndex = hotel.returnIndexOfUser(customerID)
-    if (validatePassword(psw.value)) {
-      currentCustomer = hotel.customers[customerIndex]
-      updateCustomerBookings()
-    }
+    currentCustomer = hotel.customers[customerIndex]
+    updateCustomerBookings()
   }
   if (usrname.value === 'manager') {
     // it4
@@ -57,13 +62,8 @@ function determineUser(event) {
   psw.value = '';
 }
 
-function validatePassword(password, userType, ID) {
-  if (password === 'overlook2021') {
-    return true
-  } else {
-    showMsg('password')
-    return false
-  }
+function validateUser(username, password) {
+  return users.find(user => user.username === username && user.password === password)
 }
 
 function getData() {
