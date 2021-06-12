@@ -3,8 +3,14 @@ import domUpdates from './domUpdates';
 import { fetchApiData, postApiData, deleteApiData } from './apiCalls';
 import Hotel from './Hotel';
 import Customer from './Customer';
+import { users } from './data/users'
 let customersData, roomsData, bookingsData, hotel, currentCustomer, lookingForDate
 
+const filterSection = document.querySelector('#filterSection');
+const loginSection = document.querySelector('#loginSection');
+const loginButton = document.querySelector('#loginButton');
+const usrname = document.querySelector('#usrname');
+const psw = document.querySelector('#psw');
 const customerBookingsSection = document.querySelector('#customerBookings');
 const availableRoomsSection = document.querySelector('#availableRoomsSection');
 const previousBookingsSection = document.querySelector('#bookedRooms');
@@ -31,7 +37,34 @@ availableRoomsCards.addEventListener('click', function(event) {
   }
 });
 
+loginButton.addEventListener('click', function(event) { determineUser(event) });
+
 window.addEventListener('load', fetchData);
+
+function determineUser(event) {
+  event.preventDefault()
+  if (!validateUser(usrname.value, psw.value)) {
+    showMsg('password')
+    usrname.value = '';
+    psw.value = '';
+    return
+  }
+  if (usrname.value.startsWith('customer')) {
+    let customerID = parseInt(usrname.value.slice(-2))
+    let customerIndex = hotel.returnIndexOfUser(customerID)
+    currentCustomer = hotel.customers[customerIndex]
+    updateCustomerBookings()
+  }
+  if (usrname.value === 'manager') {
+    // it4
+  }
+  usrname.value = '';
+  psw.value = '';
+}
+
+function validateUser(username, password) {
+  return users.find(user => user.username === username && user.password === password)
+}
 
 function getData() {
   return Promise.all([fetchApiData('customers'), fetchApiData('rooms'), fetchApiData('bookings')]);
@@ -44,7 +77,6 @@ function fetchData() {
     roomsData = promiseArray[1].rooms;
     bookingsData = promiseArray[2].bookings;
     instantiateData()
-    updateCustomerBookings()
     })
   .catch(error => {
     showMsg('fail', error)
@@ -103,7 +135,6 @@ function instantiateData() {
     return new Customer(customer);
   });
   hotel = new Hotel(roomsData, bookingsData, instantiationsOfCustomer);
-  currentCustomer = hotel.customers[0]
 }
 
 function updateCustomerBookings() {
@@ -117,6 +148,8 @@ function showTotalSpent() {
 }
 
 function showCustomerBookings() {
+  show(filterSection)
+  hide(loginSection)
   hide(availableRoomsSection)
   hide(messageSection)
   show(customerBookingsSection)
@@ -230,9 +263,18 @@ function showAvailableRooms(rooms) {
 }
 
 function showMsg(type, responseStatus) {
+  hide(filterSection)
+  hide(loginSection)
   hide(customerBookingsSection)
   hide(availableRoomsSection)
   show(messageSection)
+  if (type === 'password') {
+    message.innerHTML = `<p>Sorry, your username and password do not match anything in our system</p><p>Try again.</p>`
+    setTimeout(() => {
+      hide(messageSection)
+      show(loginSection)
+    }, 4000);
+  }
   if (type === 'fail') {
     message.innerHTML = `<p>Sorry, we are experiencing this error: ${responseStatus.message}</p><p>Try again by clicking <a href="./">here</a>.</p>`
   }
