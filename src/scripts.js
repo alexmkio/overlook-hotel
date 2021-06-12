@@ -5,15 +5,11 @@ import Hotel from './Hotel';
 import Customer from './Customer';
 let customersData, roomsData, bookingsData, hotel, currentCustomer, lookingForDate
 
-// let postButton = document.querySelector('#postButton');
-// postButton.addEventListener('click', createPostObject);
-
-// let deleteButton = document.querySelector('#deleteButton');
-// deleteButton.addEventListener('click', deleteBooking);
-
 const customerBookingsSection = document.querySelector('#customerBookings');
 const availableRoomsSection = document.querySelector('#availableRoomsSection');
 const previousBookingsSection = document.querySelector('#bookedRooms');
+const messageSection = document.querySelector('#messageSection');
+const message = document.querySelector('#message');
 const availableRoomsCards = document.querySelector('#availableRoomsCards');
 const totalSpent = document.querySelector('#totalSpent');
 const roomsAvailableFor = document.querySelector('#roomsAvailableFor');
@@ -67,11 +63,11 @@ function postData(postObject) {
     if (!response.ok) {
       throw Error(response.statusText);
     } else {
-      renderSuccessfulPost();
+      renderSuccessfulPost('booking');
     }
   })
   .catch(error => {
-    showPostMessage('fail', error)
+    showMsg('fail', error)
   })
 }
 
@@ -81,29 +77,24 @@ function deleteBooking() {
     if (!response.ok) {
       throw Error(response.statusText);
     } else {
-      renderSuccessfulPost();
+      renderSuccessfulPost('deleting');
     }
   })
   .catch(error => {
-    showPostMessage('fail', error)
+    showMsg('fail', error)
   })
 }
 
-function renderSuccessfulPost() {
-  showPostMessage('success')
+function renderSuccessfulPost(type) {
+  showMsg(type)
   fetchApiData('bookings')
   .then((data) => {
     bookingsData = data.bookings;
     instantiateData();
-    updateCustomerBookings()
+    setTimeout(() => {
+      updateCustomerBookings()
+    }, 4000);
   })
-}
-
-function showPostMessage(status, responseStatus) {
-  if (status === 'fail') {
-    console.log('RESPONSECODE', responseStatus)
-  }
-  console.log('STATUS', status)
 }
 
 function instantiateData() {
@@ -126,6 +117,7 @@ function showTotalSpent() {
 
 function showCustomerBookings() {
   hide(availableRoomsSection)
+  hide(messageSection)
   show(customerBookingsSection)
   previousBookingsSection.innerHTML = '';
   currentCustomer.bookings.forEach(booking => {
@@ -191,7 +183,7 @@ function checkIfNoRooms(rooms, type) {
   if (rooms) {
     showAvailableRooms(rooms)
   } else {
-    showErrorMsg(type)
+    showMsg(type)
   }
 }
 
@@ -235,8 +227,25 @@ function showAvailableRooms(rooms) {
   })
 }
 
-function showErrorMsg(type) {
- console.log(type)
+function showMsg(type, responseStatus) {
+  hide(customerBookingsSection)
+  hide(availableRoomsSection)
+  show(messageSection)
+  if (type === 'fail') {
+    message.innerText = `Sorry ${currentCustomer.name}, we are experiencing this error: ${responseStatus.message}`
+  }
+  if (type === 'date') {
+    message.innerHTML = `Sorry ${currentCustomer.name}, there aren't any rooms available on that date.<br>Please adjust your search criteria!`
+  }
+  if (type === 'filter') {
+    message.innerHTML = `Sorry ${currentCustomer.name}, there aren't any rooms available on that date in that type.<br>Please adjust your search criteria!`
+  }
+  if (type === 'booking') {
+    message.innerHTML = `Your room has been booked!<br>Thank you ${currentCustomer.name}.`
+  }
+  if (type === 'deleting') {
+    message.innerHTML = `We have removed that booking!<br>Looking for something else ${currentCustomer.name}?`
+  }
 }
 
 function hide(e) {
