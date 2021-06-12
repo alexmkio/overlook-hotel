@@ -48,7 +48,6 @@ function determineUser(event) {
     if (validatePassword(psw.value)) {
       currentCustomer = hotel.customers[customerIndex]
       updateCustomerBookings()
-      console.log(currentCustomer)
     }
   }
   if (usrname.value === 'manager') {
@@ -62,6 +61,7 @@ function validatePassword(password, userType, ID) {
   if (password === 'overlook2021') {
     return true
   } else {
+    showMsg('password')
     return false
   }
 }
@@ -268,6 +268,13 @@ function showMsg(type, responseStatus) {
   hide(customerBookingsSection)
   hide(availableRoomsSection)
   show(messageSection)
+  if (type === 'password') {
+    message.innerHTML = `<p>Sorry, your username and password do not match anything in our system</p><p>Try again.</p>`
+    setTimeout(() => {
+      hide(messageSection)
+      show(loginSection)
+    }, 4000);
+  }
   if (type === 'fail') {
     message.innerHTML = `<p>Sorry, we are experiencing this error: ${responseStatus.message}</p><p>Try again by clicking <a href="./">here</a>.</p>`
   }
