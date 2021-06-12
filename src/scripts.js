@@ -231,7 +231,7 @@ function showMsg(type, responseStatus) {
   hide(availableRoomsSection)
   show(messageSection)
   if (type === 'fail') {
-    message.innerHTML = `<p>Sorry ${currentCustomer.name}, we are experiencing this error: ${responseStatus.message}</p>`
+    message.innerHTML = `<p>Sorry ${currentCustomer.name}, we are experiencing this error: ${responseStatus.message}</p><p>Try again by clicking <a href="./">here</a>.</p>`
   }
   if (type === 'date') {
     message.innerHTML = `<p>Sorry ${currentCustomer.name}, there aren't any rooms available on ${lookingForDate}.</p><p>Please adjust your search criteria!</p>`
