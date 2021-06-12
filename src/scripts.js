@@ -11,6 +11,10 @@ let customersData, roomsData, bookingsData, hotel, currentCustomer, lookingForDa
 // let deleteButton = document.querySelector('#deleteButton');
 // deleteButton.addEventListener('click', deleteBooking);
 
+const loginSection = document.querySelector('#loginSection');
+const loginButton = document.querySelector('#loginButton');
+const usrname = document.querySelector('#usrname');
+const psw = document.querySelector('#psw');
 const customerBookingsSection = document.querySelector('#customerBookings');
 const availableRoomsSection = document.querySelector('#availableRoomsSection');
 const previousBookingsSection = document.querySelector('#bookedRooms');
@@ -35,7 +39,35 @@ availableRoomsCards.addEventListener('click', function(event) {
   }
 });
 
+loginButton.addEventListener('click', function(event) { determineUser(event) });
+
 window.addEventListener('load', fetchData);
+
+function determineUser(event) {
+  event.preventDefault()
+  if (usrname.value.startsWith('customer')) {
+    let customerID = parseInt(usrname.value.slice(-2))
+    let customerIndex = hotel.returnIndexOfUser(customerID)
+    if (validatePassword(psw.value)) {
+      currentCustomer = hotel.customers[customerIndex]
+      updateCustomerBookings()
+      console.log(currentCustomer)
+    }
+  }
+  if (usrname.value === 'manager') {
+    // it4
+  }
+  usrname.value = '';
+  psw.value = '';
+}
+
+function validatePassword(password, userType, ID) {
+  if (password === 'overlook2021') {
+    return true
+  } else {
+    return false
+  }
+}
 
 function getData() {
   return Promise.all([fetchApiData('customers'), fetchApiData('rooms'), fetchApiData('bookings')]);
@@ -48,7 +80,6 @@ function fetchData() {
     roomsData = promiseArray[1].rooms;
     bookingsData = promiseArray[2].bookings;
     instantiateData()
-    updateCustomerBookings()
   });
 };
 
@@ -111,7 +142,6 @@ function instantiateData() {
     return new Customer(customer);
   });
   hotel = new Hotel(roomsData, bookingsData, instantiationsOfCustomer);
-  currentCustomer = hotel.customers[0]
 }
 
 function updateCustomerBookings() {
