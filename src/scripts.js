@@ -91,9 +91,7 @@ function renderSuccessfulPost(type) {
   .then((data) => {
     bookingsData = data.bookings;
     instantiateData();
-    setTimeout(() => {
-      updateCustomerBookings()
-    }, 4000);
+    setTimeout(() => { updateCustomerBookings() }, 4000);
   })
 }
 
@@ -180,7 +178,7 @@ function filterAvailableRooms(event) {
 }
 
 function checkIfNoRooms(rooms, type) {
-  if (rooms) {
+  if (rooms.length) {
     showAvailableRooms(rooms)
   } else {
     showMsg(type)
@@ -232,19 +230,23 @@ function showMsg(type, responseStatus) {
   hide(availableRoomsSection)
   show(messageSection)
   if (type === 'fail') {
-    message.innerText = `Sorry ${currentCustomer.name}, we are experiencing this error: ${responseStatus.message}`
+    message.innerHTML = `<p>Sorry ${currentCustomer.name}, we are experiencing this error: ${responseStatus.message}</p>`
   }
   if (type === 'date') {
-    message.innerHTML = `Sorry ${currentCustomer.name}, there aren't any rooms available on that date.<br>Please adjust your search criteria!`
+    message.innerHTML = `<p>Sorry ${currentCustomer.name}, there aren't any rooms available on ${lookingForDate}.</p><p>Please adjust your search criteria!</p>`
+    setTimeout(() => { updateCustomerBookings() }, 4000);
   }
   if (type === 'filter') {
-    message.innerHTML = `Sorry ${currentCustomer.name}, there aren't any rooms available on that date in that type.<br>Please adjust your search criteria!`
+    message.innerHTML = `<p>Sorry ${currentCustomer.name}, there aren't any rooms available on ${lookingForDate} in that type.</p><p>Please adjust your search criteria!</p>`
+    setTimeout(() => { getAvailableRooms() }, 4000);
   }
   if (type === 'booking') {
-    message.innerHTML = `Your room has been booked!<br>Thank you ${currentCustomer.name}.`
+    message.innerHTML = `<p>Your room has been booked!</p><p>Thank you ${currentCustomer.name}.</p>`
+    setTimeout(() => { updateCustomerBookings() }, 4000);
   }
   if (type === 'deleting') {
-    message.innerHTML = `We have removed that booking!<br>Looking for something else ${currentCustomer.name}?`
+    message.innerHTML = `<p>We have removed that booking!</p><p>Looking for something else ${currentCustomer.name}?</p>`
+    setTimeout(() => { updateCustomerBookings() }, 4000);
   }
 }
 
