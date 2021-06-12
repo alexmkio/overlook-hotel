@@ -5,6 +5,7 @@ import Hotel from './Hotel';
 import Customer from './Customer';
 let customersData, roomsData, bookingsData, hotel, currentCustomer, lookingForDate
 
+const filterSection = document.querySelector('#filterSection');
 const loginSection = document.querySelector('#loginSection');
 const loginButton = document.querySelector('#loginButton');
 const usrname = document.querySelector('#usrname');
@@ -76,7 +77,6 @@ function fetchData() {
     roomsData = promiseArray[1].rooms;
     bookingsData = promiseArray[2].bookings;
     instantiateData()
-    updateCustomerBookings()
     })
   .catch(error => {
     showMsg('fail', error)
@@ -148,6 +148,8 @@ function showTotalSpent() {
 }
 
 function showCustomerBookings() {
+  show(filterSection)
+  hide(loginSection)
   hide(availableRoomsSection)
   hide(messageSection)
   show(customerBookingsSection)
@@ -261,6 +263,8 @@ function showAvailableRooms(rooms) {
 }
 
 function showMsg(type, responseStatus) {
+  hide(filterSection)
+  hide(loginSection)
   hide(customerBookingsSection)
   hide(availableRoomsSection)
   show(messageSection)
