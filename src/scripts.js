@@ -175,6 +175,7 @@ function filterAvailableRooms(event) {
     let filteredRooms = hotel.filterRoomsByType(event.target.value)
     checkIfNoRooms(filteredRooms, 'filter')
   }
+  roomTypeSelector.selectedIndex = 0;
 }
 
 function checkIfNoRooms(rooms, type) {
