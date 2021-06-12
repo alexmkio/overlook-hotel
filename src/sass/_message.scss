@@ -16,3 +16,8 @@
     box-shadow: 4px 0px 16px 8px rgba(0,0,0,0.2);
   }
 }
+
+.message {
+  display: flex;
+  flex-direction: column;
+}
