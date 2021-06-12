@@ -1,7 +1,13 @@
 export const fetchApiData = (type) => {
   return fetch(`http://localhost:3001/api/v1/${type}`)
+    .then((response) => {
+      if (!response.ok) {
+        throw Error(response.statusText);
+      } else {
+        return response
+      }
+    })
     .then(response => response.json())
-    .catch(error => console.log("API error:", error))
 };
 
 export const postApiData = (postObject) => {
