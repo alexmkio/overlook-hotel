@@ -47,7 +47,11 @@ class Hotel {
     },0)
   }
   validateUser(username, password) {
-    return this.credentials.find(credential => credential.username === username && credential.password === password)
+    if (this.credentials.find(credential => credential.username === username && credential.password === password)) {
+      return true
+    } else {
+      return false
+    }
   }
 }
 
