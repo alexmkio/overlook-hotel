@@ -13,7 +13,9 @@ class Hotel {
     }
   }
   returnIndexOfUser(userID) {
-    return this.customers.indexOf(this.customers.find(customer => customer.id === userID));
+    return this.customers.indexOf(this.customers.find(customer => {
+      return customer.id === userID;
+    }));
   }
   showAvailableRooms(date) {
     if (this.checkDateFormat(date) === 'Bad Date Format') {
@@ -24,8 +26,10 @@ class Hotel {
         newArray.push(currentBooking.roomNumber)
       }
       return newArray
-    },[])
-    this.roomsAvailable = this.rooms.filter(room => !unavailableRooms.includes(room.number))
+    }, [])
+    this.roomsAvailable = this.rooms.filter(room => {
+      return !unavailableRooms.includes(room.number);
+    })
     return this.roomsAvailable
   }
   filterRoomsByType(type) {
@@ -44,10 +48,13 @@ class Hotel {
         }
       })
       return Math.round(acc * 100) / 100
-    },0)
+    }, 0)
   }
   validateUser(username, password) {
-    if (this.credentials.find(credential => credential.username === username && credential.password === password)) {
+    if (this.credentials.find(credential => {
+      return credential.username === username 
+        && credential.password === password
+    })) {
       return true
     } else {
       return false

@@ -4,7 +4,8 @@ import { fetchApiData, postApiData, deleteApiData } from './apiCalls';
 import Hotel from './Hotel';
 import Customer from './Customer';
 import { credentials } from './data/credentials'
-let customersData, roomsData, bookingsData, hotel, currentCustomer, lookingForDate
+let customersData, roomsData, bookingsData, 
+  hotel, currentCustomer, lookingForDate
 
 const filterSection = document.querySelector('#filterSection');
 const loginSection = document.querySelector('#loginSection');
@@ -21,15 +22,19 @@ const totalSpent = document.querySelector('#totalSpent');
 const roomsAvailableFor = document.querySelector('#roomsAvailableFor');
 
 let today = new Date();
-let todayFormatted = today.getFullYear()+'-'+('0' + (today.getMonth()+1)).slice(-2)+'-'+('0' + today.getDate()).slice(-2);
-let inAYearFormatted = (today.getFullYear()+1)+'-'+('0' + (today.getMonth()+1)).slice(-2)+'-'+('0' + today.getDate()).slice(-2);
+let todayFormatted = today.getFullYear() + '-' + ('0' + (today.getMonth() + 1)).slice(-2) + '-' + ('0' + today.getDate()).slice(-2);
+let inAYearFormatted = (today.getFullYear() + 1) + '-' + ('0' + (today.getMonth() + 1)).slice(-2) + '-' + ('0' + today.getDate()).slice(-2);
 const datePicker = document.querySelector('input[type="date"]');
 datePicker.min = todayFormatted;
 datePicker.max = inAYearFormatted;
-datePicker.addEventListener('change', function(event) { setDateLookingForRoom(event) });
+datePicker.addEventListener('change', function(event) {
+  setDateLookingForRoom(event)
+});
 
 const roomTypeSelector = document.querySelector('#typeSelect');
-roomTypeSelector.addEventListener('change', function(event) { filterAvailableRooms(event) });
+roomTypeSelector.addEventListener('change', function(event) {
+  filterAvailableRooms(event)
+});
 
 availableRoomsCards.addEventListener('click', function(event) {
   if (event.target.id > 0 && event.target.id <= 25) {
@@ -37,7 +42,9 @@ availableRoomsCards.addEventListener('click', function(event) {
   }
 });
 
-loginButton.addEventListener('click', function(event) { determineUser(event) });
+loginButton.addEventListener('click', function(event) {
+  determineUser(event)
+});
 
 window.addEventListener('load', fetchData);
 
@@ -63,21 +70,25 @@ function determineUser(event) {
 }
 
 function getData() {
-  return Promise.all([fetchApiData('customers'), fetchApiData('rooms'), fetchApiData('bookings')]);
+  return Promise.all([
+    fetchApiData('customers'), 
+    fetchApiData('rooms'),
+    fetchApiData('bookings')
+  ]);
 }
 
 function fetchData() {
   getData()
-  .then((promiseArray) => {
-    customersData = promiseArray[0].customers;
-    roomsData = promiseArray[1].rooms;
-    bookingsData = promiseArray[2].bookings;
-    instantiateData()
+    .then((promiseArray) => {
+      customersData = promiseArray[0].customers;
+      roomsData = promiseArray[1].rooms;
+      bookingsData = promiseArray[2].bookings;
+      instantiateData()
     })
-  .catch(error => {
-    showMsg('fail', error)
-  })
-};
+    .catch(error => {
+      showMsg('fail', error)
+    })
+}
 
 function createPostObject(roomNum) {
   let booking = {
@@ -98,35 +109,42 @@ const checkForError = (response, whatFor) => {
 
 function postData(postObject) {
   postApiData(postObject)
-  .then(response => checkForError(response, 'booking'))
-  .catch(error => {
-    showMsg('fail', error)
-  })
+    .then(response => checkForError(response, 'booking'))
+    .catch(error => {
+      showMsg('fail', error)
+    })
 }
 
 function deleteBooking() {
   deleteApiData('5fwrgu4i7k55hl6sz')
-  .then(response => checkForError(response, 'deleting'))
-  .catch(error => {
-    showMsg('fail', error)
-  })
+    .then(response => checkForError(response, 'deleting'))
+    .catch(error => {
+      showMsg('fail', error)
+    })
 }
 
 function renderSuccessfulPost(type) {
   showMsg(type)
   fetchApiData('bookings')
-  .then((data) => {
-    bookingsData = data.bookings;
-    instantiateData();
-    setTimeout(() => { updateCustomerBookings() }, 4000);
-  })
+    .then((data) => {
+      bookingsData = data.bookings;
+      instantiateData();
+      setTimeout(() => {
+        updateCustomerBookings()
+      }, 4000);
+    })
 }
 
 function instantiateData() {
   let instantiationsOfCustomer = customersData.map(customer => {
     return new Customer(customer);
   });
-  hotel = new Hotel(roomsData, bookingsData, instantiationsOfCustomer, credentials);
+  hotel = new Hotel(
+    roomsData, 
+    bookingsData, 
+    instantiationsOfCustomer, 
+    credentials
+  );
 }
 
 function updateCustomerBookings() {
@@ -147,7 +165,9 @@ function showCustomerBookings() {
   show(customerBookingsSection)
   previousBookingsSection.innerHTML = '';
   currentCustomer.bookings.forEach(booking => {
-    let matchingRoom = hotel.rooms.find(room => room.number === booking.roomNumber)
+    let matchingRoom = hotel.rooms.find(room => {
+      return room.number === booking.roomNumber
+    })
     previousBookingsSection.innerHTML +=
     `<acrticle class="card">
       <dl>
@@ -172,7 +192,7 @@ function showCustomerBookings() {
       </dl>
     </acrticle>`
   });
-};
+}
 
 function setDateLookingForRoom(event) {
   lookingForDate = event.target.value.replaceAll('-', '/')
@@ -229,7 +249,9 @@ function showAvailableRooms(rooms) {
         <dt>Bidet</dt>
         <dd>${room.bidet}</dd>
       </dl>
-      <span class="material-icons-outlined md-48 icon" id="${room.number}">add</span>
+      <span class="material-icons-outlined md-48 icon" id="${room.number}">
+        add
+      </span>
     </acrticle>`
   })
 }
@@ -241,37 +263,61 @@ function showMsg(type, responseStatus) {
   hide(availableRoomsSection)
   show(messageSection)
   if (type === 'password') {
-    message.innerHTML = `<p>Sorry, your username and password do not match anything in our system</p><p>Try again.</p>`
+    message.innerHTML =
+      `<p>
+        Sorry, your username and password do not match anything in our system
+      </p>
+      <p>Try again.</p>`
     setTimeout(() => {
       hide(messageSection)
       show(loginSection)
     }, 4000);
   }
   if (type === 'fail') {
-    message.innerHTML = `<p>Sorry, we are experiencing this error: ${responseStatus.message}</p><p>Try again by clicking <a href="./">here</a>.</p>`
+    message.innerHTML =
+      `<p>Sorry, we are experiencing this error: ${responseStatus.message}</p>
+      <p>Try again by clicking <a href="./">here</a>.</p>`
   }
   if (type === 'date') {
-    message.innerHTML = `<p>Sorry ${currentCustomer.name}, there aren't any rooms available on ${lookingForDate}.</p><p>Please adjust your search criteria!</p>`
-    setTimeout(() => { updateCustomerBookings() }, 4000);
+    message.innerHTML =
+      `<p>Sorry ${currentCustomer.name}, 
+        there aren't any rooms available on ${lookingForDate}.</p>
+      <p>Please adjust your search criteria!</p>`
+    setTimeout(() => {
+      updateCustomerBookings()
+    }, 4000);
   }
   if (type === 'filter') {
-    message.innerHTML = `<p>Sorry ${currentCustomer.name}, there aren't any rooms available on ${lookingForDate} in that type.</p><p>Please adjust your search criteria!</p>`
-    setTimeout(() => { getAvailableRooms() }, 4000);
+    message.innerHTML =
+      `<p>Sorry ${currentCustomer.name},
+        there aren't any rooms available on ${lookingForDate} in that type.</p>
+      <p>Please adjust your search criteria!</p>`
+    setTimeout(() => {
+      getAvailableRooms()
+    }, 4000);
   }
   if (type === 'booking') {
-    message.innerHTML = `<p>Your room has been booked!</p><p>Thank you ${currentCustomer.name}.</p>`
-    setTimeout(() => { updateCustomerBookings() }, 4000);
+    message.innerHTML =
+      `<p>Your room has been booked!</p>
+      <p>Thank you ${currentCustomer.name}.</p>`
+    setTimeout(() => {
+      updateCustomerBookings()
+    }, 4000);
   }
   if (type === 'deleting') {
-    message.innerHTML = `<p>We have removed that booking!</p><p>Looking for something else ${currentCustomer.name}?</p>`
-    setTimeout(() => { updateCustomerBookings() }, 4000);
+    message.innerHTML =
+      `<p>We have removed that booking!</p>
+      <p>Looking for something else ${currentCustomer.name}?</p>`
+    setTimeout(() => {
+      updateCustomerBookings()
+    }, 4000);
   }
 }
 
 function hide(e) {
   e.classList.add('hide');
-};
+}
 
 function show(e) {
   e.classList.remove('hide');
-};
+}
