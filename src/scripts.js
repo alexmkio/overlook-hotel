@@ -1,6 +1,6 @@
 import './sass/index.scss';
 import domUpdates from './domUpdates';
-import { fetchApiData, postApiData, deleteApiData } from './apiCalls';
+import { getApiData, postApiData, deleteApiData } from './apiCalls';
 import Hotel from './Hotel';
 import Customer from './Customer';
 import { credentials } from './data/credentials'
@@ -71,9 +71,9 @@ function determineUser(event) {
 
 function getData() {
   return Promise.all([
-    fetchApiData('customers'), 
-    fetchApiData('rooms'),
-    fetchApiData('bookings')
+    getApiData('customers'), 
+    getApiData('rooms'),
+    getApiData('bookings')
   ]);
 }
 
@@ -125,7 +125,7 @@ function deleteBooking() {
 
 function renderSuccessfulPost(type) {
   showMsg(type)
-  fetchApiData('bookings')
+  getApiData('bookings')
     .then((data) => {
       bookingsData = data.bookings;
       instantiateData();

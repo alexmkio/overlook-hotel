@@ -1,4 +1,4 @@
-export const fetchApiData = (type) => {
+export const getApiData = (type) => {
   return fetch(`http://localhost:3001/api/v1/${type}`)
     .then((response) => {
       if (!response.ok) {
