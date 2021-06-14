@@ -150,37 +150,26 @@ function showCustomerBookings() {
     let matchingRoom = hotel.rooms.find(room => room.number === booking.roomNumber)
     previousBookingsSection.innerHTML +=
     `<acrticle class="card">
-      <section class="card-top">
-        <figure class="img-gradient">
-          <img src="./images/1.jpg">
-        </figure>
-        <section class="overlay">
-          <dl class="room">
-            <dt>Room #</dt>
-            <dd>${booking.roomNumber}</dd>
-          </dl>
-        </section>
-      </section>
-      <section class="card-content">
+      <dl>
+        <dt>Room Type</dt>
+        <dd>${matchingRoom.roomType}</dd>
+        <dt>Bed Size and Quantity</dt>
+        <dd>${matchingRoom.numBeds} ${matchingRoom.bedSize}</dd>
+      </dl>
+      <section class="link">
         <dl>
-          <dt>Room Type</dt>
-          <dd>${matchingRoom.roomType}</dd>
-          <dt>Bed Size and Quantity</dt>
-          <dd>${matchingRoom.numBeds} ${matchingRoom.bedSize}</dd>
-        </dl>
-        <section class="link">
-          <dl>
-            <dt>Booked For: </dt>
-            <dd>${booking.date}</dd>
-          </dl>
-        </section>
-        <dl>
-          <dt>Cost per night</dt>
-          <dd>$${matchingRoom.costPerNight}</dd>
-          <dt>Bidet</dt>
-          <dd>${matchingRoom.bidet}</dd>
+          <dt>Room #</dt>
+          <dd>${booking.roomNumber}</dd>
+          <dt>Booked For: </dt>
+          <dd>${booking.date}</dd>
         </dl>
       </section>
+      <dl>
+        <dt>Cost per night</dt>
+        <dd>$${matchingRoom.costPerNight}</dd>
+        <dt>Bidet</dt>
+        <dd>${matchingRoom.bidet}</dd>
+      </dl>
     </acrticle>`
   });
 };
@@ -222,34 +211,25 @@ function showAvailableRooms(rooms) {
   rooms.forEach(room => {
     availableRoomsCards.innerHTML +=
     `<acrticle class="card">
-      <section class="card-top">
-        <figure class="img-gradient">
-          <img src="./images/1.jpg">
-        </figure>
-        <section class="overlay">
-          <div>
-            <span class="material-icons-outlined md-48 icon" id="${room.number}">add</span>
-          </div>
-          <dl class="room">
-            <dt>Room #</dt>
-            <dd>${room.number}</dd>
-          </dl>
-        </section>
-      </section>
-      <section class="card-content">
+      <dl>
+        <dt>Room Type</dt>
+        <dd>${room.roomType}</dd>
+        <dt>Bed Size and Quantity</dt>
+        <dd>${room.numBeds} ${room.bedSize}</dd>
+      </dl>
+      <section class="link">
         <dl>
-          <dt>Room Type</dt>
-          <dd>${room.roomType}</dd>
-          <dt>Bed Size and Quantity</dt>
-          <dd>${room.numBeds} ${room.bedSize}</dd>
-        </dl>
-        <dl>
-          <dt>Cost per night</dt>
-          <dd>$${room.costPerNight}</dd>
-          <dt>Bidet</dt>
-          <dd>${room.bidet}</dd>
+          <dt>Room #</dt>
+          <dd>${room.number}</dd>
         </dl>
       </section>
+      <dl>
+        <dt>Cost per night</dt>
+        <dd>$${room.costPerNight}</dd>
+        <dt>Bidet</dt>
+        <dd>${room.bidet}</dd>
+      </dl>
+      <span class="material-icons-outlined md-48 icon" id="${room.number}">add</span>
     </acrticle>`
   })
 }
