@@ -226,7 +226,7 @@ function checkIfNoRooms(rooms, type) {
 function showAvailableRooms(rooms) {
   hide(customerBookingsSection)
   show(availableRoomsSection)
-  roomsAvailableFor.innerText = `Available rooms for ${lookingForDate}`
+  roomsAvailableFor.innerHTML = `<h2>Available rooms for ${lookingForDate}</h2>`
   availableRoomsCards.innerHTML = '';
   rooms.forEach(room => {
     availableRoomsCards.innerHTML +=
