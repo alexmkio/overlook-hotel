@@ -1,8 +1,9 @@
 class Hotel {
-  constructor(rooms, bookings, customers) {
+  constructor(rooms, bookings, customers, credentials) {
     this.rooms = rooms || [];
     this.bookings = bookings || [];
     this.customers = customers || [];
+    this.credentials = credentials || [];
     this.roomsAvailable = [];
   }
   checkDateFormat(date) {
@@ -44,6 +45,9 @@ class Hotel {
       })
       return Math.round(acc * 100) / 100
     },0)
+  }
+  validateUser(username, password) {
+    return this.credentials.find(credential => credential.username === username && credential.password === password)
   }
 }
 
