@@ -88,15 +88,17 @@ function createPostObject(roomNum) {
   postData(booking)
 }
 
+const checkForError = (response, whatFor) => {
+  if (!response.ok) {
+    throw Error(response.statusText);
+  } else {
+    renderSuccessfulPost(whatFor)
+  }
+}
+
 function postData(postObject) {
   postApiData(postObject)
-  .then((response) => {
-    if (!response.ok) {
-      throw Error(response.statusText);
-    } else {
-      renderSuccessfulPost('booking');
-    }
-  })
+  .then(response => checkForError(response, 'booking'))
   .catch(error => {
     showMsg('fail', error)
   })
@@ -104,13 +106,7 @@ function postData(postObject) {
 
 function deleteBooking() {
   deleteApiData('5fwrgu4i7k55hl6sz')
-  .then((response) => {
-    if (!response.ok) {
-      throw Error(response.statusText);
-    } else {
-      renderSuccessfulPost('deleting');
-    }
-  })
+  .then(response => checkForError(response, 'deleting'))
   .catch(error => {
     showMsg('fail', error)
   })
