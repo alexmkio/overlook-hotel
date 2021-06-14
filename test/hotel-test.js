@@ -1,11 +1,11 @@
 import { expect } from 'chai';
-import { rooms, bookings, customers } from './sampleData';
+import { rooms, bookings, customers, credentials } from './sampleData';
 import Hotel from '../src/Hotel';
 
 describe('HOTEL CLASS TESTS', function() {
   let hotel, emptyHotel
   beforeEach(() => {
-    hotel = new Hotel(rooms, bookings, customers)
+    hotel = new Hotel(rooms, bookings, customers, credentials)
     emptyHotel = new Hotel()
   });
   
@@ -35,6 +35,14 @@ describe('HOTEL CLASS TESTS', function() {
 
   it('That array should be empty by default', () => {
     expect(emptyHotel.customers).to.deep.equal([]);
+  });
+
+  it('Should store all login credentials in an array', () => {
+    expect(hotel.credentials).to.deep.equal([credentials[0],credentials[1]]);
+  });
+
+  it('That array should be empty by default', () => {
+    expect(emptyHotel.credentials).to.deep.equal([]);
   });
 
   it('Should have an attribute to store the available rooms that is an empty array by default', () => {
