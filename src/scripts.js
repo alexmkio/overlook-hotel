@@ -3,7 +3,7 @@ import domUpdates from './domUpdates';
 import { fetchApiData, postApiData, deleteApiData } from './apiCalls';
 import Hotel from './Hotel';
 import Customer from './Customer';
-import { users } from './data/users'
+import { credentials } from './data/credentials'
 let customersData, roomsData, bookingsData, hotel, currentCustomer, lookingForDate
 
 const filterSection = document.querySelector('#filterSection');
@@ -43,7 +43,7 @@ window.addEventListener('load', fetchData);
 
 function determineUser(event) {
   event.preventDefault()
-  if (!validateUser(usrname.value, psw.value)) {
+  if (!hotel.validateUser(usrname.value, psw.value)) {
     showMsg('password')
     usrname.value = '';
     psw.value = '';
@@ -60,10 +60,6 @@ function determineUser(event) {
   }
   usrname.value = '';
   psw.value = '';
-}
-
-function validateUser(username, password) {
-  return users.find(user => user.username === username && user.password === password)
 }
 
 function getData() {
@@ -134,7 +130,7 @@ function instantiateData() {
   let instantiationsOfCustomer = customersData.map(customer => {
     return new Customer(customer);
   });
-  hotel = new Hotel(roomsData, bookingsData, instantiationsOfCustomer);
+  hotel = new Hotel(roomsData, bookingsData, instantiationsOfCustomer, credentials);
 }
 
 function updateCustomerBookings() {

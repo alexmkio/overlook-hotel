@@ -1,11 +1,11 @@
 import { expect } from 'chai';
-import { rooms, bookings, customers } from './sampleData';
+import { rooms, bookings, customers, credentials } from './sampleData';
 import Hotel from '../src/Hotel';
 
 describe('HOTEL CLASS TESTS', function() {
   let hotel, emptyHotel
   beforeEach(() => {
-    hotel = new Hotel(rooms, bookings, customers)
+    hotel = new Hotel(rooms, bookings, customers, credentials)
     emptyHotel = new Hotel()
   });
   
@@ -35,6 +35,14 @@ describe('HOTEL CLASS TESTS', function() {
 
   it('That array should be empty by default', () => {
     expect(emptyHotel.customers).to.deep.equal([]);
+  });
+
+  it('Should store all login credentials in an array', () => {
+    expect(hotel.credentials).to.deep.equal([credentials[0],credentials[1]]);
+  });
+
+  it('That array should be empty by default', () => {
+    expect(emptyHotel.credentials).to.deep.equal([]);
   });
 
   it('Should have an attribute to store the available rooms that is an empty array by default', () => {
@@ -71,4 +79,11 @@ describe('HOTEL CLASS TESTS', function() {
     expect(hotel.calculateUserSpending(3)).to.equal(Math.round((491.14 + 429.44) * 100) / 100);
   });
 
+  it('Given a username and password that exists in this.credentials, should return true', () => {
+    expect(hotel.validateUser('customer50', 'overlook2021')).to.equal(true);
   });
+
+  it('Given a username and password that do no exist in this.credentials, should return false', () => {
+    expect(hotel.validateUser('whatever', 'dude')).to.equal(false);
+  });
+});
