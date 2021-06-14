@@ -79,4 +79,11 @@ describe('HOTEL CLASS TESTS', function() {
     expect(hotel.calculateUserSpending(3)).to.equal(Math.round((491.14 + 429.44) * 100) / 100);
   });
 
+  it('Given a username and password that exists in this.credentials, should return true', () => {
+    expect(hotel.validateUser('customer50', 'overlook2021')).to.equal(true);
   });
+
+  it('Given a username and password that do no exist in this.credentials, should return false', () => {
+    expect(hotel.validateUser('whatever', 'dude')).to.equal(false);
+  });
+});
