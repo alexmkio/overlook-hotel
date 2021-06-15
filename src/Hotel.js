@@ -6,18 +6,18 @@ class Hotel {
     this.credentials = credentials || [];
     this.roomsAvailable = [];
   }
-  checkDateFormat(date) {
+  checkDateFormat = (date) => {
     let split = date.split('/')
     if (split[0].length !== 4) {
       return 'Bad Date Format'
     }
   }
-  returnIndexOfUser(userID) {
+  returnIndexOfUser = (userID) => {
     return this.customers.indexOf(this.customers.find(customer => {
       return customer.id === userID;
     }));
   }
-  showAvailableRooms(date) {
+  showAvailableRooms = (date) => {
     if (this.checkDateFormat(date) === 'Bad Date Format') {
       return 'Bad Date Format'
     }
@@ -32,15 +32,15 @@ class Hotel {
     })
     return this.roomsAvailable
   }
-  filterRoomsByType(type) {
+  filterRoomsByType = (type) => {
     return this.roomsAvailable.filter(room => room.roomType === type)
   }
-  assignUsersBookings(userID) {
+  assignUsersBookings = (userID) => {
     this.customers[this.returnIndexOfUser(userID)].bookings = this.bookings.filter(booking => {
       return booking.userID === userID
     })
   }
-  calculateUserSpending(userID) {
+  calculateUserSpending = (userID) => {
     return this.rooms.reduce((acc, currentRoom) => {
       this.customers[this.returnIndexOfUser(userID)].bookings.forEach(booking => {
         if (currentRoom.number === booking.roomNumber) {
@@ -50,7 +50,7 @@ class Hotel {
       return Math.round(acc * 100) / 100
     }, 0)
   }
-  validateUser(username, password) {
+  validateUser = (username, password) => {
     if (this.credentials.find(credential => {
       return credential.username === username 
         && credential.password === password
