@@ -89,6 +89,7 @@ let domUpdates = {
     domUpdates.hide(loginSection)
     domUpdates.hide(customerBookingsSection)
     domUpdates.hide(availableRoomsSection)
+    domUpdates.hide(managerSection)
     domUpdates.show(messageSection)
     if (type === 'password') {
       message.innerHTML =
@@ -120,13 +121,13 @@ let domUpdates = {
     }
     if (type === 'booking') {
       message.innerHTML =
-        `<p>Your room has been booked!</p>
-        <p>Thank you ${currentCustomer.name}.</p>`
+        `<p>That room has been booked for ${currentCustomer.name}.</p>
+        <p>Thank you!</p>`
     }
     if (type === 'deleting') {
       message.innerHTML =
         `<p>We have removed that booking!</p>
-        <p>Looking for something else ${currentCustomer.name}?</p>`
+        <p>Is ${currentCustomer.name} looking for something else?</p>`
     }
   },
 
