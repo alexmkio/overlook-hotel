@@ -37,7 +37,7 @@ const determineUser = (event) => {
   }
   if (usrname.value.startsWith('customer')) {
     let customerID = parseInt(usrname.value.slice(-2))
-    let customerIndex = hotel.returnIndexOfUser(customerID)
+    let customerIndex = hotel.returnIndexOfCustomer(customerID)
     currentCustomer = hotel.customers[customerIndex]
     updateCustomerBookings()
   }
