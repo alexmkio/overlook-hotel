@@ -1,11 +1,12 @@
 import './sass/index.scss';
 import domUpdates from './domUpdates';
 import { getApiData, postApiData, deleteApiData } from './apiCalls';
-import Hotel from './Hotel';
 import Customer from './Customer';
+import Hotel from './Hotel';
+import Manager from './Manager';
 import { credentials } from './data/credentials'
 let customersData, roomsData, bookingsData, 
-  hotel, currentCustomer, lookingForDate
+  hotel, manager, currentCustomer, lookingForDate
 
 const filterSection = document.querySelector('#filterSection');
 const loginSection = document.querySelector('#loginSection');
@@ -20,13 +21,18 @@ const message = document.querySelector('#message');
 const availableRoomsCards = document.querySelector('#availableRoomsCards');
 const totalSpent = document.querySelector('#totalSpent');
 const roomsAvailableFor = document.querySelector('#roomsAvailableFor');
+const managerSection = document.querySelector('#managerSection');
+const cstName = document.querySelector('#cstName');
+const customerSearchButton = document.querySelector('#customerSearchButton');
+const statsSection = document.querySelector('#statsSection');
 
 let today = new Date();
-let todayFormatted = today.getFullYear() + '-' + ('0' + (today.getMonth() + 1)).slice(-2) + '-' + ('0' + today.getDate()).slice(-2);
-let inAYearFormatted = (today.getFullYear() + 1) + '-' + ('0' + (today.getMonth() + 1)).slice(-2) + '-' + ('0' + today.getDate()).slice(-2);
+let todayForPicker = today.getFullYear() + '-' + ('0' + (today.getMonth() + 1)).slice(-2) + '-' + ('0' + today.getDate()).slice(-2);
+let inAYearForPicker = (today.getFullYear() + 1) + '-' + ('0' + (today.getMonth() + 1)).slice(-2) + '-' + ('0' + today.getDate()).slice(-2);
 const datePicker = document.querySelector('input[type="date"]');
-datePicker.min = todayFormatted;
-datePicker.max = inAYearFormatted;
+datePicker.min = todayForPicker;
+datePicker.max = inAYearForPicker;
+let todayFormatted = todayForPicker.replaceAll('-', '/')
 
 const determineUser = (event) => {
   event.preventDefault()
@@ -42,7 +48,7 @@ const determineUser = (event) => {
     updateCustomerBookings()
   }
   if (usrname.value === 'manager') {
-    // it4
+    showManagerDashboard()
   }
   domUpdates.resetLogin()
 }
@@ -123,6 +129,7 @@ const instantiateData = () => {
     instantiationsOfCustomer, 
     credentials
   );
+  manager = new Manager(hotel);
 }
 
 const updateCustomerBookings = () => {
@@ -169,6 +176,25 @@ const timeout = (param) => {
     }, 4000);
 }
 
+function showManagerDashboard() {
+  domUpdates.hide(loginSection)
+  domUpdates.show(managerSection)
+  statsSection.innerHTML = `
+    <dl>
+      <dt>Total Rooms Available for today’s date</dt>
+      <dd>${manager.showRoomsLeft(todayFormatted)}</dd>
+      <dt>Total revenue for today’s date</dt>
+      <dd>$${manager.getTotalRevenue(todayFormatted)}</dd>
+      <dt>Percentage of rooms occupied for today’s date</dt>
+      <dd>${manager.calculatePercentageOccupied(todayFormatted)}%</dd>
+    </dl>`
+}
+
+function findCustomer(event) {
+  event.preventDefault()
+  console.log(cstName.value)
+}
+
 datePicker.addEventListener('change', function(event) {
   setDateLookingForRoom(event)
 });
@@ -186,6 +212,10 @@ availableRoomsCards.addEventListener('click', function(event) {
 
 loginButton.addEventListener('click', function(event) {
   determineUser(event)
+});
+
+customerSearchButton.addEventListener('click', function(event) {
+  findCustomer(event)
 });
 
 window.addEventListener('load', fetchData);
