@@ -81,6 +81,14 @@ describe('HOTEL CLASS TESTS', function() {
     ]);
   });
 
+  it('Given a userID, should find their index in the customer array', () => {
+    expect(hotel.returnIndexOfCustomer(3)).to.equal(2);
+  });
+
+  it('Given a userID, should not find their incorrect index in the customer array', () => {
+    expect(hotel.returnIndexOfCustomer(3)).to.not.equal(3);
+  });
+
   it('Given a userID, should update the user\'s bookings with the rooms they\'ve booked', () => {
     hotel.assignUsersBookings(1)
     hotel.assignUsersBookings(3)
