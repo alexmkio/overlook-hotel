@@ -30,6 +30,7 @@ const futureBookingsHeader = document.querySelector('#futureBookingsHeader');
 const futureBookingsSection = document.querySelector('#futureBookingsSection');
 const previouslyBookedHeader = document.querySelector('#previouslyBookedHeader');
 const previouslyBookedSection = document.querySelector('#previouslyBookedSection');
+const datePickerHeader = document.querySelector('#datePickerHeader');
 
 let today = new Date();
 let todayForPicker = today.getFullYear() + '-' + ('0' + (today.getMonth() + 1)).slice(-2) + '-' + ('0' + today.getDate()).slice(-2);
@@ -200,6 +201,9 @@ function findCustomer(event) {
   currentCustomer = hotel.customers[manager.getIndexOfCustomer(cstName.value)]
   hotel.assignUsersBookings(currentCustomer.id)
 
+  domUpdates.show(filterSection)
+  datePickerHeader.innerHTML = `Find a room for ${currentCustomer.name}`
+
   foundCustomerSection.innerHTML = `
     <dl>
       <dt>Customer's Name:</dt>
@@ -243,10 +247,8 @@ function updateFutureBookingsSection() {
           <dt>Bidet</dt>
           <dd>${matchingRoom.bidet}</dd>
         </dl>
-        <button>
-          <span class="material-icons-outlined md-48 icon" id="${booking.id}">
-            delete
-          </span>
+        <button class="material-icons-outlined md-48 icon" id="${booking.id}">
+          delete
         </button>
       </acrticle>`
     });
