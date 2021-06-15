@@ -13,6 +13,7 @@ const loginSection = document.querySelector('#loginSection');
 const loginButton = document.querySelector('#loginButton');
 const usrname = document.querySelector('#usrname');
 const psw = document.querySelector('#psw');
+const roomTypeSelector = document.querySelector('#typeSelect');
 const customerBookingsSection = document.querySelector('#customerBookings');
 const availableRoomsSection = document.querySelector('#availableRoomsSection');
 const previousBookingsSection = document.querySelector('#bookedRooms');
@@ -55,7 +56,7 @@ const determineUser = (event) => {
   }
   if (usrname.value === 'manager') {
     managerIn = true
-    showManagerDashboard()
+    domUpdates.showManagerDashboard(manager, todayFormatted)
   }
   domUpdates.resetLogin()
 }
@@ -117,8 +118,9 @@ const checkForError = (response, whatFor) => {
   } else if (response.ok && whatFor === 'deleting') {
     fetchData()
     setTimeout(() => {
-      updateCustomerInfo()
-      showManagerDashboard()
+      assignUserBookings()
+      domUpdates.updateCustomerInfo(currentCustomer, hotel, todayFormatted)
+      domUpdates.showManagerDashboard(manager, todayFormatted)
     }, 4000);
   } else {
     throw Error(response.statusText);
@@ -148,13 +150,14 @@ const instantiateData = () => {
 }
 
 const updateCustomerBookings = () => {
-  hotel.assignUsersBookings(currentCustomer.id)
+  assignUserBookings()
   if (!managerIn) {
     domUpdates.showTotalSpent(hotel.calculateUserSpending(currentCustomer.id))
     domUpdates.showCustomerBookings(currentCustomer, hotel, customerBookingsSection, previousBookingsSection)
   } else {
-    showManagerDashboard()
-    updateCustomerInfo()
+    domUpdates.showManagerDashboard(manager, todayFormatted)
+    assignUserBookings()
+    domUpdates.updateCustomerInfo(currentCustomer, hotel, todayFormatted)
   }
 }
 
@@ -196,124 +199,21 @@ const timeout = (param) => {
     }, 4000);
 }
 
-function showManagerDashboard() {
-  domUpdates.hide(loginSection)
-  domUpdates.show(managerSection)
-  statsSection.innerHTML = ''
-  statsSection.innerHTML = `
-    <dl>
-      <dt>Total Rooms Available for today’s date</dt>
-      <dd>${manager.showRoomsLeft(todayFormatted)}</dd>
-      <dt>Total revenue for today’s date</dt>
-      <dd>$${manager.getTotalRevenue(todayFormatted)}</dd>
-      <dt>Percentage of rooms occupied for today’s date</dt>
-      <dd>${manager.calculatePercentageOccupied(todayFormatted)}%</dd>
-    </dl>`
-}
-
-function assignCurrentCustomer(event) {
+const assignCurrentCustomer = (event) => {
   event.preventDefault()
   currentCustomer = hotel.customers[manager.getIndexOfCustomer(cstName.value)]
-  updateCustomerInfo()
+  assignUserBookings()
+  domUpdates.updateCustomerInfo(currentCustomer, hotel, todayFormatted)
 }
 
-function updateCustomerInfo() {
+const assignUserBookings = () => {
   hotel.assignUsersBookings(currentCustomer.id)
-  domUpdates.show(filterSection)
-  datePickerHeader.innerHTML = ''
-  datePickerHeader.innerHTML = `Find a room for ${currentCustomer.name}`
-  foundCustomerSection.innerHTML = ''
-  foundCustomerSection.innerHTML = `
-    <dl>
-      <dt>Customer's Name:</dt>
-      <dd>${currentCustomer.name}</dd>
-      <dt>Total amount they've spent:</dt>
-      <dd>$${hotel.calculateUserSpending(currentCustomer.id)}</dd>
-    </dl>`
-  updateFutureBookingsSection()
-  updatePreviouslyBookedSection()
-  cstName.value = ''
-}
-
-function updateFutureBookingsSection() {
-  if (hotel.findFutureBookings(currentCustomer.id, todayFormatted).length) {
-    futureBookingsHeader.innerHTML = ''
-    futureBookingsHeader.innerHTML = '<h2>Their upcoming bookings</h2>'
-    futureBookingsSection.innerHTML = '';
-    hotel.findFutureBookings(currentCustomer.id, todayFormatted).forEach(booking => {
-      let matchingRoom = hotel.rooms.find(room => {
-        return room.number === booking.roomNumber
-      })
-      futureBookingsSection.innerHTML +=
-      `<acrticle class="card">
-        <dl>
-          <dt>Room Type</dt>
-          <dd>${matchingRoom.roomType}</dd>
-          <dt>Bed Size and Quantity</dt>
-          <dd>${matchingRoom.numBeds} ${matchingRoom.bedSize}</dd>
-        </dl>
-        <section class="link">
-          <dl>
-            <dt>Room #</dt>
-            <dd>${booking.roomNumber}</dd>
-            <dt>Booked For: </dt>
-            <dd>${booking.date}</dd>
-          </dl>
-        </section>
-        <dl>
-          <dt>Cost per night</dt>
-          <dd>$${matchingRoom.costPerNight}</dd>
-          <dt>Bidet</dt>
-          <dd>${matchingRoom.bidet}</dd>
-        </dl>
-        <button class="material-icons-outlined md-48 icon" id="${booking.id}">
-          delete
-        </button>
-      </acrticle>`
-    });
-  }
-}
-
-function updatePreviouslyBookedSection() {
-  if (hotel.findPastBookings(currentCustomer.id, todayFormatted).length) {
-    previouslyBookedHeader.innerHTML = '<h2>Their previous bookings</h2>'
-    previouslyBookedSection.innerHTML = '';
-    hotel.findPastBookings(currentCustomer.id, todayFormatted).forEach(booking => {
-      let matchingRoom = hotel.rooms.find(room => {
-        return room.number === booking.roomNumber
-      })
-      previouslyBookedSection.innerHTML +=
-      `<acrticle class="card">
-        <dl>
-          <dt>Room Type</dt>
-          <dd>${matchingRoom.roomType}</dd>
-          <dt>Bed Size and Quantity</dt>
-          <dd>${matchingRoom.numBeds} ${matchingRoom.bedSize}</dd>
-        </dl>
-        <section class="link">
-          <dl>
-            <dt>Room #</dt>
-            <dd>${booking.roomNumber}</dd>
-            <dt>Booked For: </dt>
-            <dd>${booking.date}</dd>
-          </dl>
-        </section>
-        <dl>
-          <dt>Cost per night</dt>
-          <dd>$${matchingRoom.costPerNight}</dd>
-          <dt>Bidet</dt>
-          <dd>${matchingRoom.bidet}</dd>
-        </dl>
-      </acrticle>`
-    });
-  }
 }
 
 datePicker.addEventListener('change', function(event) {
   setDateLookingForRoom(event)
 });
 
-const roomTypeSelector = document.querySelector('#typeSelect');
 roomTypeSelector.addEventListener('change', function(event) {
   filterAvailableRooms(event)
 });
@@ -331,7 +231,6 @@ loginButton.addEventListener('click', function(event) {
 customerSearchButton.addEventListener('click', function(event) {
   assignCurrentCustomer(event)
 });
-
 
 futureBookingsSection.addEventListener('click', function(event) {
   deleteBooking(event.target.id)
