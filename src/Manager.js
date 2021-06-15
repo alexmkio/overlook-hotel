@@ -5,8 +5,11 @@ class Manager {
   showRoomsLeft = (date) => {
     return this.myHotel.showAvailableRooms(date).length
   }
-  getTotalRevenue = (date) => {
-    let roomsBookedToday = this.myHotel.rooms.reduce((newArray, room) => {
+  calculatePercentageOccupied = (date) => {
+    
+  }
+  findBookedRooms = (date) => {
+    return this.myHotel.rooms.reduce((newArray, room) => {
       this.myHotel.bookings.forEach(booking => {
         if (booking.date === date && booking.roomNumber === room.number) {
           newArray.push(room)
@@ -14,7 +17,9 @@ class Manager {
       })
       return newArray
     }, [])
-    return roomsBookedToday.reduce((acc, currentRoom) => {
+  }
+  getTotalRevenue = (date) => {
+    return this.findBookedRooms(date).reduce((acc, currentRoom) => {
       return Math.round((acc += currentRoom.costPerNight) * 100) / 100
     }, 0)
   }
