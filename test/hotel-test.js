@@ -53,6 +53,10 @@ describe('HOTEL CLASS TESTS', function() {
     expect(hotel.roomsAvailable).to.deep.equal([]);
   });
 
+  it('Given a date, should return a string if it\'s not in our preferred YYYY/MM/DD format', () => {
+    expect(hotel.checkDateFormat("04/25/2020")).to.equal('Bad Date Format');
+  });
+
   it('Given a date, should show what rooms are available', () => {
     expect(hotel.showAvailableRooms("2020/04/22")).to.deep.equal([
       rooms[1], rooms[2]

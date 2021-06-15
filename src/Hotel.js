@@ -6,16 +6,16 @@ class Hotel {
     this.credentials = credentials || [];
     this.roomsAvailable = [];
   }
+  returnIndexOfCustomer = (userID) => {
+    return this.customers.indexOf(this.customers.find(customer => {
+      return customer.id === userID;
+    }));
+  }
   checkDateFormat = (date) => {
     let split = date.split('/')
     if (split[0].length !== 4) {
       return 'Bad Date Format'
     }
-  }
-  returnIndexOfCustomer = (userID) => {
-    return this.customers.indexOf(this.customers.find(customer => {
-      return customer.id === userID;
-    }));
   }
   showAvailableRooms = (date) => {
     if (this.checkDateFormat(date) === 'Bad Date Format') {
