@@ -109,19 +109,16 @@ const deleteBooking = (bookingID) => {
 
 const checkForError = (response, whatFor) => {
   if (response.ok) {
-    filterSection.classList.add('hide')
-    managerSection.classList.add('hide')
     domUpdates.showMsg(customerBookingsSection, currentCustomer, lookingForDate, whatFor)
   }
   if (response.ok && whatFor === 'booking') {
-    // console.log('post')
     renderSuccessfulPost(whatFor)
   } else if (response.ok && whatFor === 'deleting') {
-    console.log(hotel.customers[49].bookings.length)
-    // fetchData()
-    // showManagerDashboard()
-    // updateCustomerInfo()
-    // timeout(domUpdates.show(managerSection))
+    fetchData()
+    setTimeout(() => {
+      updateCustomerInfo()
+      showManagerDashboard()
+    }, 4000);
   } else {
     throw Error(response.statusText);
   }
@@ -198,6 +195,7 @@ const timeout = (param) => {
 function showManagerDashboard() {
   domUpdates.hide(loginSection)
   domUpdates.show(managerSection)
+  statsSection.innerHTML = ''
   statsSection.innerHTML = `
     <dl>
       <dt>Total Rooms Available for today’s date</dt>
@@ -217,9 +215,10 @@ function assignCurrentCustomer(event) {
 
 function updateCustomerInfo() {
   hotel.assignUsersBookings(currentCustomer.id)
-  console.log(hotel.customers[49].bookings.length)
   domUpdates.show(filterSection)
+  datePickerHeader.innerHTML = ''
   datePickerHeader.innerHTML = `Find a room for ${currentCustomer.name}`
+  foundCustomerSection.innerHTML = ''
   foundCustomerSection.innerHTML = `
     <dl>
       <dt>Customer's Name:</dt>
@@ -235,6 +234,7 @@ function updateCustomerInfo() {
 function updateFutureBookingsSection() {
   console.log(hotel.findFutureBookings(currentCustomer.id, todayFormatted).length)
   if (hotel.findFutureBookings(currentCustomer.id, todayFormatted).length) {
+    futureBookingsHeader.innerHTML = ''
     futureBookingsHeader.innerHTML = '<h2>Their upcoming bookings</h2>'
     futureBookingsSection.innerHTML = '';
     hotel.findFutureBookings(currentCustomer.id, todayFormatted).forEach(booking => {
