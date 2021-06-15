@@ -240,6 +240,11 @@ function updateFutureBookingsSection() {
           <dt>Bidet</dt>
           <dd>${matchingRoom.bidet}</dd>
         </dl>
+        <button>
+          <span class="material-icons-outlined md-48 icon" id="${booking.id}">
+            delete
+          </span>
+        </button>
       </acrticle>`
     });
   }
