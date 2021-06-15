@@ -111,4 +111,9 @@ describe('HOTEL CLASS TESTS', function() {
     hotel.assignUsersBookings(3)
     expect(hotel.findFutureBookings(3, "2020/04/24")).to.deep.equal([bookings[5]]);
   });
+
+  it('Given user id and date, should find their past bookings', () => {
+    hotel.assignUsersBookings(3)
+    expect(hotel.findPastBookings(3, "2020/04/24")).to.deep.equal([bookings[4]]);
+  });
 });
