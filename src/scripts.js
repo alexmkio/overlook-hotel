@@ -27,6 +27,147 @@ let inAYearFormatted = (today.getFullYear() + 1) + '-' + ('0' + (today.getMonth(
 const datePicker = document.querySelector('input[type="date"]');
 datePicker.min = todayFormatted;
 datePicker.max = inAYearFormatted;
+
+const determineUser = (event) => {
+  event.preventDefault()
+  if (!hotel.validateUser(usrname.value, psw.value)) {
+    domUpdates.showMsg(customerBookingsSection, currentCustomer, lookingForDate, 'password')
+    domUpdates.resetLogin()
+    return
+  }
+  if (usrname.value.startsWith('customer')) {
+    let customerID = parseInt(usrname.value.slice(-2))
+    let customerIndex = hotel.returnIndexOfUser(customerID)
+    currentCustomer = hotel.customers[customerIndex]
+    updateCustomerBookings()
+  }
+  if (usrname.value === 'manager') {
+    // it4
+  }
+  domUpdates.resetLogin()
+}
+
+const getData = () => {
+  return Promise.all([
+    getApiData('customers'), 
+    getApiData('rooms'),
+    getApiData('bookings')
+  ]);
+}
+
+const fetchData = () => {
+  getData()
+    .then((promiseArray) => {
+      customersData = promiseArray[0].customers;
+      roomsData = promiseArray[1].rooms;
+      bookingsData = promiseArray[2].bookings;
+      instantiateData()
+    })
+    .catch(error => {
+      domUpdates.showMsg(customerBookingsSection, currentCustomer, lookingForDate, 'fail', error)
+    })
+}
+
+const createPostObject = (roomNum) => {
+  let booking = {
+    "userID": currentCustomer.id,
+    "date": lookingForDate,
+    "roomNumber": parseInt(roomNum),
+  }
+  postData(booking)
+}
+
+const postData = (postObject) => {
+  postApiData(postObject)
+    .then(response => checkForError(response, 'booking'))
+    .catch(error => {
+      domUpdates.showMsg(customerBookingsSection, currentCustomer, lookingForDate, 'fail', error)
+      timeout(updateCustomerBookings)
+    })
+}
+
+const deleteBooking = () => {
+  deleteApiData('5fwrgu4i7k55hl6sz')
+    .then(response => checkForError(response, 'deleting'))
+    .catch(error => {
+      domUpdates.showMsg(customerBookingsSection, currentCustomer, lookingForDate, 'fail', error)
+      timeout(updateCustomerBookings)
+    })
+}
+
+const checkForError = (response, whatFor) => {
+  if (!response.ok) {
+    throw Error(response.statusText);
+  } else {
+    renderSuccessfulPost(whatFor)
+  }
+}
+
+const renderSuccessfulPost = (type) => {
+  domUpdates.showMsg(customerBookingsSection, currentCustomer, lookingForDate, type)
+  getApiData('bookings')
+    .then((data) => {
+      bookingsData = data.bookings;
+      instantiateData();
+      timeout(updateCustomerBookings)
+    })
+}
+
+const instantiateData = () => {
+  let instantiationsOfCustomer = customersData.map(customer => {
+    return new Customer(customer);
+  });
+  hotel = new Hotel(
+    roomsData, 
+    bookingsData, 
+    instantiationsOfCustomer, 
+    credentials
+  );
+}
+
+const updateCustomerBookings = () => {
+  hotel.assignUsersBookings(currentCustomer.id)
+  domUpdates.showTotalSpent(hotel.calculateUserSpending(currentCustomer.id))
+  domUpdates.showCustomerBookings(currentCustomer, hotel, customerBookingsSection, previousBookingsSection)
+}
+
+const setDateLookingForRoom = (event) => {
+  lookingForDate = event.target.value.replaceAll('-', '/')
+  domUpdates.resetCalendar()
+  getAvailableRooms()
+}
+
+const getAvailableRooms = () => {
+  domUpdates.show(filterSection)
+  let availableRooms = hotel.showAvailableRooms(lookingForDate)
+  checkIfNoRooms(availableRooms, 'date', updateCustomerBookings)
+}
+
+const filterAvailableRooms = (event) => {
+  if (event.target.value === 'all') {
+    getAvailableRooms()
+  } else {
+    let filteredRooms = hotel.filterRoomsByType(event.target.value)
+    checkIfNoRooms(filteredRooms, 'filter', getAvailableRooms)
+  }
+  roomTypeSelector.selectedIndex = 0;
+}
+
+const checkIfNoRooms = (rooms, type, param) => {
+  if (rooms.length) {
+    domUpdates.showAvailableRooms(rooms, customerBookingsSection, lookingForDate)
+  } else {
+    domUpdates.showMsg(customerBookingsSection, currentCustomer, lookingForDate, type)
+    timeout(param)
+  }
+}
+
+const timeout = (param) => {
+  setTimeout(() => {
+      param()
+    }, 4000);
+}
+
 datePicker.addEventListener('change', function(event) {
   setDateLookingForRoom(event)
 });
@@ -47,144 +188,3 @@ loginButton.addEventListener('click', function(event) {
 });
 
 window.addEventListener('load', fetchData);
-
-function determineUser(event) {
-  event.preventDefault()
-  if (!hotel.validateUser(usrname.value, psw.value)) {
-    domUpdates.showMsg(customerBookingsSection, currentCustomer, lookingForDate, 'password')
-    domUpdates.resetLogin()
-    return
-  }
-  if (usrname.value.startsWith('customer')) {
-    let customerID = parseInt(usrname.value.slice(-2))
-    let customerIndex = hotel.returnIndexOfUser(customerID)
-    currentCustomer = hotel.customers[customerIndex]
-    updateCustomerBookings()
-  }
-  if (usrname.value === 'manager') {
-    // it4
-  }
-  domUpdates.resetLogin()
-}
-
-function getData() {
-  return Promise.all([
-    getApiData('customers'), 
-    getApiData('rooms'),
-    getApiData('bookings')
-  ]);
-}
-
-function fetchData() {
-  getData()
-    .then((promiseArray) => {
-      customersData = promiseArray[0].customers;
-      roomsData = promiseArray[1].rooms;
-      bookingsData = promiseArray[2].bookings;
-      instantiateData()
-    })
-    .catch(error => {
-      domUpdates.showMsg(customerBookingsSection, currentCustomer, lookingForDate, 'fail', error)
-    })
-}
-
-function createPostObject(roomNum) {
-  let booking = {
-    "userID": currentCustomer.id,
-    "date": lookingForDate,
-    "roomNumber": parseInt(roomNum),
-  }
-  postData(booking)
-}
-
-function postData(postObject) {
-  postApiData(postObject)
-    .then(response => checkForError(response, 'booking'))
-    .catch(error => {
-      domUpdates.showMsg(customerBookingsSection, currentCustomer, lookingForDate, 'fail', error)
-      timeout(updateCustomerBookings)
-    })
-}
-
-function deleteBooking() {
-  deleteApiData('5fwrgu4i7k55hl6sz')
-    .then(response => checkForError(response, 'deleting'))
-    .catch(error => {
-      domUpdates.showMsg(customerBookingsSection, currentCustomer, lookingForDate, 'fail', error)
-      timeout(updateCustomerBookings)
-    })
-}
-
-const checkForError = (response, whatFor) => {
-  if (!response.ok) {
-    throw Error(response.statusText);
-  } else {
-    renderSuccessfulPost(whatFor)
-  }
-}
-
-function renderSuccessfulPost(type) {
-  domUpdates.showMsg(customerBookingsSection, currentCustomer, lookingForDate, type)
-
-  getApiData('bookings')
-    .then((data) => {
-      bookingsData = data.bookings;
-      instantiateData();
-      timeout(updateCustomerBookings)
-    })
-}
-
-function instantiateData() {
-  let instantiationsOfCustomer = customersData.map(customer => {
-    return new Customer(customer);
-  });
-  hotel = new Hotel(
-    roomsData, 
-    bookingsData, 
-    instantiationsOfCustomer, 
-    credentials
-  );
-}
-
-function updateCustomerBookings() {
-  hotel.assignUsersBookings(currentCustomer.id)
-  domUpdates.showTotalSpent(hotel.calculateUserSpending(currentCustomer.id))
-  domUpdates.showCustomerBookings(currentCustomer, hotel, customerBookingsSection, previousBookingsSection)
-}
-
-function setDateLookingForRoom(event) {
-  lookingForDate = event.target.value.replaceAll('-', '/')
-  domUpdates.resetCalendar()
-  getAvailableRooms()
-}
-
-function getAvailableRooms() {
-  domUpdates.show(filterSection)
-  let availableRooms = hotel.showAvailableRooms(lookingForDate)
-  checkIfNoRooms(availableRooms, 'date', updateCustomerBookings)
-}
-
-function filterAvailableRooms(event) {
-  if (event.target.value === 'all') {
-    getAvailableRooms()
-  } else {
-    let filteredRooms = hotel.filterRoomsByType(event.target.value)
-    checkIfNoRooms(filteredRooms, 'filter', getAvailableRooms)
-  }
-  roomTypeSelector.selectedIndex = 0;
-}
-
-function checkIfNoRooms(rooms, type, param) {
-  if (rooms.length) {
-    domUpdates.showAvailableRooms(rooms, customerBookingsSection, lookingForDate)
-  } else {
-    domUpdates.showMsg(customerBookingsSection, currentCustomer, lookingForDate, type)
-    timeout(param)
-  }
-}
-
-function timeout(param) {
-  setTimeout(() => {
-      param()
-    }, 4000);
-}
