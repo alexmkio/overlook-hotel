@@ -85,6 +85,114 @@ let domUpdates = {
     })
   },
 
+  showManagerDashboard(manager, todayFormatted) {
+    domUpdates.hide(loginSection)
+    domUpdates.show(managerSection)
+    statsSection.innerHTML = ''
+    statsSection.innerHTML = `
+      <dl>
+        <dt>Total Rooms Available for today’s date</dt>
+        <dd>${manager.showRoomsLeft(todayFormatted)}</dd>
+        <dt>Total revenue for today’s date</dt>
+        <dd>$${manager.getTotalRevenue(todayFormatted)}</dd>
+        <dt>Percentage of rooms occupied for today’s date</dt>
+        <dd>${manager.calculatePercentageOccupied(todayFormatted)}%</dd>
+      </dl>`
+  },
+
+  updateCustomerInfo(currentCustomer, hotel, todayFormatted) {
+    domUpdates.show(filterSection)
+    datePickerHeader.innerHTML = ''
+    datePickerHeader.innerHTML = `Find a room for ${currentCustomer.name}`
+    foundCustomerSection.innerHTML = ''
+    foundCustomerSection.innerHTML = `
+      <dl>
+        <dt>Customer's Name:</dt>
+        <dd>${currentCustomer.name}</dd>
+        <dt>Total amount they've spent:</dt>
+        <dd>$${hotel.calculateUserSpending(currentCustomer.id)}</dd>
+      </dl>`
+      domUpdates.updateFutureBookingsSection(currentCustomer, hotel, todayFormatted)
+      domUpdates.updatePreviouslyBookedSection(currentCustomer, hotel, todayFormatted)
+    cstName.value = ''
+  },
+
+  updateFutureBookingsSection(currentCustomer, hotel, todayFormatted) {
+    if (hotel.findFutureBookings(currentCustomer.id, todayFormatted).length) {
+      futureBookingsHeader.innerHTML = ''
+      futureBookingsHeader.innerHTML = '<h2>Their upcoming bookings</h2>'
+      futureBookingsSection.innerHTML = '';
+      hotel.findFutureBookings(currentCustomer.id, todayFormatted).forEach(booking => {
+        let matchingRoom = hotel.rooms.find(room => {
+          return room.number === booking.roomNumber
+        })
+        futureBookingsSection.innerHTML +=
+        `<acrticle class="card">
+          <dl>
+            <dt>Room Type</dt>
+            <dd>${matchingRoom.roomType}</dd>
+            <dt>Bed Size and Quantity</dt>
+            <dd>${matchingRoom.numBeds} ${matchingRoom.bedSize}</dd>
+          </dl>
+          <section class="link">
+            <dl>
+              <dt>Room #</dt>
+              <dd>${booking.roomNumber}</dd>
+              <dt>Booked For: </dt>
+              <dd>${booking.date}</dd>
+            </dl>
+          </section>
+          <dl>
+            <dt>Cost per night</dt>
+            <dd>$${matchingRoom.costPerNight}</dd>
+            <dt>Bidet</dt>
+            <dd>${matchingRoom.bidet}</dd>
+          </dl>
+          <button class="material-icons-outlined md-48 icon" id="${booking.id}">
+            delete
+          </button>
+        </acrticle>`
+      });
+    }
+  },
+
+  updatePreviouslyBookedSection(currentCustomer, hotel, todayFormatted) {
+    if (hotel.findPastBookings(currentCustomer.id, todayFormatted).length) {
+      previouslyBookedHeader.innerHTML = '<h2>Their previous bookings</h2>'
+      previouslyBookedSection.innerHTML = '';
+      hotel.findPastBookings(currentCustomer.id, todayFormatted).forEach(booking => {
+        let matchingRoom = hotel.rooms.find(room => {
+          return room.number === booking.roomNumber
+        })
+        previouslyBookedSection.innerHTML +=
+        `<acrticle class="card">
+          <dl>
+            <dt>Room Type</dt>
+            <dd>${matchingRoom.roomType}</dd>
+            <dt>Bed Size and Quantity</dt>
+            <dd>${matchingRoom.numBeds} ${matchingRoom.bedSize}</dd>
+          </dl>
+          <section class="link">
+            <dl>
+              <dt>Room #</dt>
+              <dd>${booking.roomNumber}</dd>
+              <dt>Booked For: </dt>
+              <dd>${booking.date}</dd>
+            </dl>
+          </section>
+          <dl>
+            <dt>Cost per night</dt>
+            <dd>$${matchingRoom.costPerNight}</dd>
+            <dt>Bidet</dt>
+            <dd>${matchingRoom.bidet}</dd>
+          </dl>
+        </acrticle>`
+      });
+    }
+  },
+
+
+
   showMsg(customerBookingsSection, currentCustomer, lookingForDate, type, responseStatus) {
     domUpdates.hide(filterSection)
     domUpdates.hide(loginSection)
