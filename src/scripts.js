@@ -25,6 +25,9 @@ const managerSection = document.querySelector('#managerSection');
 const cstName = document.querySelector('#cstName');
 const customerSearchButton = document.querySelector('#customerSearchButton');
 const statsSection = document.querySelector('#statsSection');
+const foundCustomerSection = document.querySelector('#foundCustomerSection');
+const futureBookingsSection = document.querySelector('#futureBookingsSection');
+const previouslyBookedSection = document.querySelector('#previouslyBookedSection');
 
 let today = new Date();
 let todayForPicker = today.getFullYear() + '-' + ('0' + (today.getMonth() + 1)).slice(-2) + '-' + ('0' + today.getDate()).slice(-2);
@@ -192,7 +195,88 @@ function showManagerDashboard() {
 
 function findCustomer(event) {
   event.preventDefault()
-  console.log(cstName.value)
+  currentCustomer = hotel.customers[manager.getIndexOfCustomer(cstName.value)]
+  hotel.assignUsersBookings(currentCustomer.id)
+
+  foundCustomerSection.innerHTML = `
+    <dl>
+      <dt>Customer's Name:</dt>
+      <dd>${currentCustomer.name}</dd>
+      <dt>Total amount they've spent:</dt>
+      <dd>$${hotel.calculateUserSpending(currentCustomer.id)}</dd>
+    </dl>`
+
+  updateFutureBookingsSection()
+  updatePreviouslyBookedSection()
+  cstName.value = ''
+}
+
+function updateFutureBookingsSection() {
+  if (hotel.findFutureBookings(currentCustomer.id, todayFormatted).length) {
+    futureBookingsSection.innerHTML = '';
+    hotel.findFutureBookings(currentCustomer.id, todayFormatted).forEach(booking => {
+      let matchingRoom = hotel.rooms.find(room => {
+        return room.number === booking.roomNumber
+      })
+      futureBookingsSection.innerHTML +=
+      `<acrticle class="card">
+        <dl>
+          <dt>Room Type</dt>
+          <dd>${matchingRoom.roomType}</dd>
+          <dt>Bed Size and Quantity</dt>
+          <dd>${matchingRoom.numBeds} ${matchingRoom.bedSize}</dd>
+        </dl>
+        <section class="link">
+          <dl>
+            <dt>Room #</dt>
+            <dd>${booking.roomNumber}</dd>
+            <dt>Booked For: </dt>
+            <dd>${booking.date}</dd>
+          </dl>
+        </section>
+        <dl>
+          <dt>Cost per night</dt>
+          <dd>$${matchingRoom.costPerNight}</dd>
+          <dt>Bidet</dt>
+          <dd>${matchingRoom.bidet}</dd>
+        </dl>
+      </acrticle>`
+    });
+  }
+}
+
+function updatePreviouslyBookedSection() {
+  if (hotel.findPastBookings(currentCustomer.id, todayFormatted).length) {
+    previouslyBookedSection.innerHTML = '';
+    hotel.findPastBookings(currentCustomer.id, todayFormatted).forEach(booking => {
+      let matchingRoom = hotel.rooms.find(room => {
+        return room.number === booking.roomNumber
+      })
+      previouslyBookedSection.innerHTML +=
+      `<acrticle class="card">
+        <dl>
+          <dt>Room Type</dt>
+          <dd>${matchingRoom.roomType}</dd>
+          <dt>Bed Size and Quantity</dt>
+          <dd>${matchingRoom.numBeds} ${matchingRoom.bedSize}</dd>
+        </dl>
+        <section class="link">
+          <dl>
+            <dt>Room #</dt>
+            <dd>${booking.roomNumber}</dd>
+            <dt>Booked For: </dt>
+            <dd>${booking.date}</dd>
+          </dl>
+        </section>
+        <dl>
+          <dt>Cost per night</dt>
+          <dd>$${matchingRoom.costPerNight}</dd>
+          <dt>Bidet</dt>
+          <dd>${matchingRoom.bidet}</dd>
+        </dl>
+      </acrticle>`
+    });
+  }
 }
 
 datePicker.addEventListener('change', function(event) {
