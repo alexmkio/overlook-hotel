@@ -52,6 +52,7 @@ let domUpdates = {
 
   showAvailableRooms(rooms, customerBookingsSection, lookingForDate) {
     domUpdates.hide(customerBookingsSection)
+    domUpdates.hide(managerSection)
     domUpdates.show(availableRoomsSection)
     domUpdates.show(availableRoomsSection)
     roomsAvailableFor.innerHTML = `<h2>Available rooms for ${lookingForDate}</h2>`

@@ -6,7 +6,7 @@ import Hotel from './Hotel';
 import Manager from './Manager';
 import { credentials } from './data/credentials'
 let customersData, roomsData, bookingsData, 
-  hotel, manager, currentCustomer, lookingForDate
+  hotel, manager, currentCustomer, lookingForDate, managerIn
 
 const filterSection = document.querySelector('#filterSection');
 const loginSection = document.querySelector('#loginSection');
@@ -54,6 +54,7 @@ const determineUser = (event) => {
     updateCustomerBookings()
   }
   if (usrname.value === 'manager') {
+    managerIn = true
     showManagerDashboard()
   }
   domUpdates.resetLogin()
@@ -127,9 +128,7 @@ const checkForError = (response, whatFor) => {
 const renderSuccessfulPost = (type) => {
   getApiData('bookings')
     .then((data) => {
-      console.log('1', bookingsData)
       bookingsData = data.bookings;
-      console.log('2', bookingsData)
       instantiateData();
       timeout(updateCustomerBookings)
     })
@@ -150,8 +149,13 @@ const instantiateData = () => {
 
 const updateCustomerBookings = () => {
   hotel.assignUsersBookings(currentCustomer.id)
-  domUpdates.showTotalSpent(hotel.calculateUserSpending(currentCustomer.id))
-  domUpdates.showCustomerBookings(currentCustomer, hotel, customerBookingsSection, previousBookingsSection)
+  if (!managerIn) {
+    domUpdates.showTotalSpent(hotel.calculateUserSpending(currentCustomer.id))
+    domUpdates.showCustomerBookings(currentCustomer, hotel, customerBookingsSection, previousBookingsSection)
+  } else {
+    showManagerDashboard()
+    updateCustomerInfo()
+  }
 }
 
 const setDateLookingForRoom = (event) => {
@@ -232,7 +236,6 @@ function updateCustomerInfo() {
 }
 
 function updateFutureBookingsSection() {
-  console.log(hotel.findFutureBookings(currentCustomer.id, todayFormatted).length)
   if (hotel.findFutureBookings(currentCustomer.id, todayFormatted).length) {
     futureBookingsHeader.innerHTML = ''
     futureBookingsHeader.innerHTML = '<h2>Their upcoming bookings</h2>'
@@ -272,7 +275,6 @@ function updateFutureBookingsSection() {
 }
 
 function updatePreviouslyBookedSection() {
-  console.log(hotel.findPastBookings(currentCustomer.id, todayFormatted).length)
   if (hotel.findPastBookings(currentCustomer.id, todayFormatted).length) {
     previouslyBookedHeader.innerHTML = '<h2>Their previous bookings</h2>'
     previouslyBookedSection.innerHTML = '';
