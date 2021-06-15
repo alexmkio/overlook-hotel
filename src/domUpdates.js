@@ -77,9 +77,11 @@ let domUpdates = {
           <dt>Bidet</dt>
           <dd>${room.bidet}</dd>
         </dl>
-        <span class="material-icons-outlined md-48 icon" id="${room.number}">
-          add
-        </span>
+        <button>
+          <span class="material-icons-outlined md-48 icon" id="${room.number}">
+            add
+          </span>
+        </button>
       </acrticle>`
     })
   },
