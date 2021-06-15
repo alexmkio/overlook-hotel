@@ -24,6 +24,11 @@ class Manager {
       return Math.round((acc += currentRoom.costPerNight) * 100) / 100
     }, 0)
   }
+  getIndexOfCustomer = (customerName) => {
+    return this.myHotel.customers.indexOf(this.myHotel.customers.find(customer => {
+      return customer.name === customerName;
+    }));
+  }
 }
 
 export default Manager;

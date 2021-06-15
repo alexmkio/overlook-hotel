@@ -49,4 +49,12 @@ describe('MANAGER CLASS TESTS', function() {
     expect(manager.calculatePercentageOccupied("2020/04/22")).to.not.equal(51);
   });
 
+  it('Given user\'s name, should find their index in hotel.customers array', () => {
+    expect(manager.getIndexOfCustomer("Rocio Schuster")).to.equal(1);
+  });
+
+  it('Given user\'s name, should not find their incorrect index in hotel.customers array', () => {
+    expect(manager.getIndexOfCustomer("Rocio Schuster")).to.not.equal(0);
+  });
+
 });
