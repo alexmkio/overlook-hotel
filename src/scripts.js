@@ -26,7 +26,9 @@ const cstName = document.querySelector('#cstName');
 const customerSearchButton = document.querySelector('#customerSearchButton');
 const statsSection = document.querySelector('#statsSection');
 const foundCustomerSection = document.querySelector('#foundCustomerSection');
+const futureBookingsHeader = document.querySelector('#futureBookingsHeader');
 const futureBookingsSection = document.querySelector('#futureBookingsSection');
+const previouslyBookedHeader = document.querySelector('#previouslyBookedHeader');
 const previouslyBookedSection = document.querySelector('#previouslyBookedSection');
 
 let today = new Date();
@@ -213,6 +215,7 @@ function findCustomer(event) {
 
 function updateFutureBookingsSection() {
   if (hotel.findFutureBookings(currentCustomer.id, todayFormatted).length) {
+    futureBookingsHeader.innerHTML = '<h2>Their upcoming bookings</h2>'
     futureBookingsSection.innerHTML = '';
     hotel.findFutureBookings(currentCustomer.id, todayFormatted).forEach(booking => {
       let matchingRoom = hotel.rooms.find(room => {
@@ -252,6 +255,7 @@ function updateFutureBookingsSection() {
 
 function updatePreviouslyBookedSection() {
   if (hotel.findPastBookings(currentCustomer.id, todayFormatted).length) {
+    previouslyBookedHeader.innerHTML = '<h2>Their previous bookings</h2>'
     previouslyBookedSection.innerHTML = '';
     hotel.findPastBookings(currentCustomer.id, todayFormatted).forEach(booking => {
       let matchingRoom = hotel.rooms.find(room => {
