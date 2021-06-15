@@ -12,7 +12,7 @@ class Hotel {
       return 'Bad Date Format'
     }
   }
-  returnIndexOfUser = (userID) => {
+  returnIndexOfCustomer = (userID) => {
     return this.customers.indexOf(this.customers.find(customer => {
       return customer.id === userID;
     }));
@@ -36,13 +36,13 @@ class Hotel {
     return this.roomsAvailable.filter(room => room.roomType === type)
   }
   assignUsersBookings = (userID) => {
-    this.customers[this.returnIndexOfUser(userID)].bookings = this.bookings.filter(booking => {
+    this.customers[this.returnIndexOfCustomer(userID)].bookings = this.bookings.filter(booking => {
       return booking.userID === userID
     })
   }
   calculateUserSpending = (userID) => {
     return this.rooms.reduce((acc, currentRoom) => {
-      this.customers[this.returnIndexOfUser(userID)].bookings.forEach(booking => {
+      this.customers[this.returnIndexOfCustomer(userID)].bookings.forEach(booking => {
         if (currentRoom.number === booking.roomNumber) {
           acc += currentRoom.costPerNight
         }
