@@ -53,6 +53,10 @@ describe('HOTEL CLASS TESTS', function() {
     expect(hotel.roomsAvailable).to.deep.equal([]);
   });
 
+  it('Given a date, should return a string if it\'s not in our preferred YYYY/MM/DD format', () => {
+    expect(hotel.checkDateFormat("04/25/2020")).to.equal('Bad Date Format');
+  });
+
   it('Given a date, should show what rooms are available', () => {
     expect(hotel.showAvailableRooms("2020/04/22")).to.deep.equal([
       rooms[1], rooms[2]
@@ -75,6 +79,14 @@ describe('HOTEL CLASS TESTS', function() {
     expect(hotel.filterRoomsByType("single room")).to.deep.equal([
       rooms[2], rooms[3]
     ]);
+  });
+
+  it('Given a userID, should find their index in the customer array', () => {
+    expect(hotel.returnIndexOfCustomer(3)).to.equal(2);
+  });
+
+  it('Given a userID, should not find their incorrect index in the customer array', () => {
+    expect(hotel.returnIndexOfCustomer(3)).to.not.equal(3);
   });
 
   it('Given a userID, should update the user\'s bookings with the rooms they\'ve booked', () => {

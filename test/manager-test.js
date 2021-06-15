@@ -31,6 +31,10 @@ describe('MANAGER CLASS TESTS', function() {
     expect(manager.showRoomsLeft("2020/04/22")).to.not.equal(1);
   });
 
+  it('Given today\'s date, should find booked rooms for that day', () => {
+    expect(manager.findBookedRooms("2020/04/22")).to.deep.equal([rooms[0], rooms[3]]);
+  });
+
   it('Given today\'s date, should see total revenue for that day', () => {
     expect(manager.getTotalRevenue("2020/04/22")).to.equal(
       Math.round((358.4 + 429.44) * 100) / 100

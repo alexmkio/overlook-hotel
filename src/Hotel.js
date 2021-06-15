@@ -12,11 +12,6 @@ class Hotel {
       return 'Bad Date Format'
     }
   }
-  returnIndexOfCustomer = (userID) => {
-    return this.customers.indexOf(this.customers.find(customer => {
-      return customer.id === userID;
-    }));
-  }
   showAvailableRooms = (date) => {
     if (this.checkDateFormat(date) === 'Bad Date Format') {
       return 'Bad Date Format'
@@ -34,6 +29,11 @@ class Hotel {
   }
   filterRoomsByType = (type) => {
     return this.roomsAvailable.filter(room => room.roomType === type)
+  }
+  returnIndexOfCustomer = (userID) => {
+    return this.customers.indexOf(this.customers.find(customer => {
+      return customer.id === userID;
+    }));
   }
   assignUsersBookings = (userID) => {
     this.customers[this.returnIndexOfCustomer(userID)].bookings = this.bookings.filter(booking => {
