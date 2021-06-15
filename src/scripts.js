@@ -138,6 +138,7 @@ const setDateLookingForRoom = (event) => {
 }
 
 const getAvailableRooms = () => {
+  domUpdates.hide(messageSection)
   domUpdates.show(filterSection)
   let availableRooms = hotel.showAvailableRooms(lookingForDate)
   checkIfNoRooms(availableRooms, 'date', updateCustomerBookings)
