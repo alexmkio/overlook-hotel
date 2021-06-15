@@ -56,5 +56,4 @@ describe('MANAGER CLASS TESTS', function() {
   it('Given user\'s name, should not find their incorrect index in hotel.customers array', () => {
     expect(manager.getIndexOfCustomer("Rocio Schuster")).to.not.equal(0);
   });
-
 });

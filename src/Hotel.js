@@ -40,6 +40,11 @@ class Hotel {
       return booking.userID === userID
     })
   }
+  findFutureBookings = (userID, date) => {
+    return this.customers[this.returnIndexOfCustomer(userID)].bookings.filter(booking => {
+      return booking.date >= date
+    })
+  }
   calculateUserSpending = (userID) => {
     return this.rooms.reduce((acc, currentRoom) => {
       this.customers[this.returnIndexOfCustomer(userID)].bookings.forEach(booking => {
