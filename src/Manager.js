@@ -1,6 +1,6 @@
 class Manager {
   constructor(hotel) {
-    this.myHotel = hotel;
+    this.myHotel = hotel || [];
   }
 }
 
