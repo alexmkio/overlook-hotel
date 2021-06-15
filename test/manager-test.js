@@ -23,4 +23,8 @@ describe('MANAGER CLASS TESTS', function() {
     expect(emptyManager.myHotel).to.deep.equal([]);
   });
 
+  it('Given today\'s date, should return number of rooms still available', () => {
+    expect(manager.showRoomsLeft("2020/04/22")).to.equal(2);
+  });
+
 });
