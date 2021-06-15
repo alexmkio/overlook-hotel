@@ -27,4 +27,8 @@ describe('MANAGER CLASS TESTS', function() {
     expect(manager.showRoomsLeft("2020/04/22")).to.equal(2);
   });
 
+  it('Given today\'s date, should not return incorrect number of rooms still available', () => {
+    expect(manager.showRoomsLeft("2020/04/22")).to.not.equal(1);
+  });
+
 });
