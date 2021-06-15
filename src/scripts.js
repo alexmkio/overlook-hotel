@@ -98,28 +98,41 @@ const postData = (postObject) => {
     })
 }
 
-const deleteBooking = () => {
-  deleteApiData('5fwrgu4i7k55hl6sz')
+const deleteBooking = (bookingID) => {
+  deleteApiData(bookingID)
     .then(response => checkForError(response, 'deleting'))
     .catch(error => {
       domUpdates.showMsg(customerBookingsSection, currentCustomer, lookingForDate, 'fail', error)
-      timeout(updateCustomerBookings)
+      timeout(domUpdates.show(managerSection))
     })
 }
 
 const checkForError = (response, whatFor) => {
-  if (!response.ok) {
-    throw Error(response.statusText);
-  } else {
+  if (response.ok) {
+    filterSection.classList.add('hide')
+    managerSection.classList.add('hide')
+    domUpdates.showMsg(customerBookingsSection, currentCustomer, lookingForDate, whatFor)
+  }
+  if (response.ok && whatFor === 'booking') {
+    // console.log('post')
     renderSuccessfulPost(whatFor)
+  } else if (response.ok && whatFor === 'deleting') {
+    console.log(hotel.customers[49].bookings.length)
+    // fetchData()
+    // showManagerDashboard()
+    // updateCustomerInfo()
+    // timeout(domUpdates.show(managerSection))
+  } else {
+    throw Error(response.statusText);
   }
 }
 
 const renderSuccessfulPost = (type) => {
-  domUpdates.showMsg(customerBookingsSection, currentCustomer, lookingForDate, type)
   getApiData('bookings')
     .then((data) => {
+      console.log('1', bookingsData)
       bookingsData = data.bookings;
+      console.log('2', bookingsData)
       instantiateData();
       timeout(updateCustomerBookings)
     })
@@ -196,14 +209,17 @@ function showManagerDashboard() {
     </dl>`
 }
 
-function findCustomer(event) {
+function assignCurrentCustomer(event) {
   event.preventDefault()
   currentCustomer = hotel.customers[manager.getIndexOfCustomer(cstName.value)]
-  hotel.assignUsersBookings(currentCustomer.id)
+  updateCustomerInfo()
+}
 
+function updateCustomerInfo() {
+  hotel.assignUsersBookings(currentCustomer.id)
+  console.log(hotel.customers[49].bookings.length)
   domUpdates.show(filterSection)
   datePickerHeader.innerHTML = `Find a room for ${currentCustomer.name}`
-
   foundCustomerSection.innerHTML = `
     <dl>
       <dt>Customer's Name:</dt>
@@ -211,13 +227,13 @@ function findCustomer(event) {
       <dt>Total amount they've spent:</dt>
       <dd>$${hotel.calculateUserSpending(currentCustomer.id)}</dd>
     </dl>`
-
   updateFutureBookingsSection()
   updatePreviouslyBookedSection()
   cstName.value = ''
 }
 
 function updateFutureBookingsSection() {
+  console.log(hotel.findFutureBookings(currentCustomer.id, todayFormatted).length)
   if (hotel.findFutureBookings(currentCustomer.id, todayFormatted).length) {
     futureBookingsHeader.innerHTML = '<h2>Their upcoming bookings</h2>'
     futureBookingsSection.innerHTML = '';
@@ -256,6 +272,7 @@ function updateFutureBookingsSection() {
 }
 
 function updatePreviouslyBookedSection() {
+  console.log(hotel.findPastBookings(currentCustomer.id, todayFormatted).length)
   if (hotel.findPastBookings(currentCustomer.id, todayFormatted).length) {
     previouslyBookedHeader.innerHTML = '<h2>Their previous bookings</h2>'
     previouslyBookedSection.innerHTML = '';
@@ -310,7 +327,12 @@ loginButton.addEventListener('click', function(event) {
 });
 
 customerSearchButton.addEventListener('click', function(event) {
-  findCustomer(event)
+  assignCurrentCustomer(event)
+});
+
+
+futureBookingsSection.addEventListener('click', function(event) {
+  deleteBooking(event.target.id)
 });
 
 window.addEventListener('load', fetchData);
