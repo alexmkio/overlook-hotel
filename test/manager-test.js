@@ -31,12 +31,22 @@ describe('MANAGER CLASS TESTS', function() {
     expect(manager.showRoomsLeft("2020/04/22")).to.not.equal(1);
   });
 
-  it('Given today\'s date, should see total revenue for today\'s date', () => {
-    expect(manager.getTotalRevenue("2020/04/22")).to.equal(Math.round((358.4 + 429.44) * 100) / 100);
+  it('Given today\'s date, should see total revenue for that day', () => {
+    expect(manager.getTotalRevenue("2020/04/22")).to.equal(
+      Math.round((358.4 + 429.44) * 100) / 100
+      );
   });
 
-  it('Given today\'s date, should not see incorrect total revenue for today\'s date', () => {
+  it('Given today\'s date, should not see incorrect total revenue for that day', () => {
     expect(manager.getTotalRevenue("2020/04/22")).to.not.equal(666.66);
+  });
+
+  it('Given today\'s date, should see percentage of rooms occupied', () => {
+    expect(manager.calculatePercentageOccupied("2020/04/22")).to.equal(50);
+  });
+
+  it('Given today\'s date, should not see incorrect percentage of rooms occupied', () => {
+    expect(manager.calculatePercentageOccupied("2020/04/22")).to.not.equal(51);
   });
 
 });
