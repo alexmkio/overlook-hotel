@@ -106,4 +106,14 @@ describe('HOTEL CLASS TESTS', function() {
   it('Given a invalid username or password, should return false', () => {
     expect(hotel.validateUser('whatever', 'dude')).to.equal(false);
   });
+
+  it('Given user id and date, should find their future bookings', () => {
+    hotel.assignUsersBookings(3)
+    expect(hotel.findFutureBookings(3, "2020/04/24")).to.deep.equal([bookings[5]]);
+  });
+
+  it('Given user id and date, should find their past bookings', () => {
+    hotel.assignUsersBookings(3)
+    expect(hotel.findPastBookings(3, "2020/04/24")).to.deep.equal([bookings[4]]);
+  });
 });

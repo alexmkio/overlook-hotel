@@ -65,7 +65,7 @@ export const bookings = [
   {
     "id": "5fwrgu4i7k55hl6t8",
     "userID": 3,
-    "date": "2020/04/24",
+    "date": "2020/04/23",
     "roomNumber": 3,
     "roomServiceCharges": []
   },

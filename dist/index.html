@@ -14,7 +14,7 @@
       <h1>Overlook Hotel</h1>
       <section class="filter hide" id="filterSection">
         <form>
-          <label for="datePicker">Look at rooms available on the following date:</label>
+          <label for="datePicker" id="datePickerHeader">Look at rooms available on the following date:</label>
           <input type="date" id="datePicker" required>
           <span class="validity"></span>
         </form>
@@ -26,11 +26,9 @@
         <section class="message-card">
           <form>
             <label for="usrname">Username</label>
-            <input type="text" id="usrname" name="usrname" required>
-        
+            <input type="text" id="usrname" name="usrname" value="manager" required>
             <label for="psw">Password</label>
-            <input type="password" id="psw" name="psw" required>
-        
+            <input type="password" id="psw" name="psw" value="overlook2021" required>
             <input type="submit" value="Submit" id="loginButton">
           </form>
         </section>
@@ -59,9 +57,21 @@
           </select>
         </form>
         <section id="roomsAvailableFor"></section>
-        <section class="cards" id="availableRoomsCards">
-        </section> 
-        </section>  
+        <section class="cards" id="availableRoomsCards"></section>  
+      </section>
+
+      <section class="hide" id="managerSection">
+        <section id="statsSection"></section>
+        <form>
+          <label for="cstName">Search for customer by name:</label>
+          <input type="text" id="cstName" name="cstName" value="Eldridge Muller" required>
+          <input type="submit" value="Submit" id="customerSearchButton">
+        </form>
+        <section id="foundCustomerSection"></section>
+        <section class="cards" id="futureBookingsHeader"></section>
+        <section class="cards" id="futureBookingsSection"></section>
+        <section class="cards" id="previouslyBookedHeader"></section>
+        <section class="cards" id="previouslyBookedSection"></section>
       </section>
 
       <section class="message-container hide" id="messageSection">
