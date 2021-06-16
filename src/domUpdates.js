@@ -10,7 +10,7 @@ let domUpdates = {
   },
 
   showTotalSpent(amount) {
-    totalSpent.innerText = amount;
+    totalSpent.innerHTML = `$${amount}`;
   },
 
   showCustomerBookings(customer, hotel, customerBookingsSection, previousBookingsSection) {
