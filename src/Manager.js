@@ -6,8 +6,8 @@ class Manager {
     return this.myHotel.showAvailableRooms(date).length
   }
   calculatePercentageOccupied = (date) => {
-    return ((this.myHotel.rooms.length - this.showRoomsLeft(date)) 
-      / this.myHotel.rooms.length) * 100
+    return Math.round(((this.myHotel.rooms.length - this.showRoomsLeft(date)) 
+      / this.myHotel.rooms.length) * 100) * 100 / 100
   }
   findBookedRooms = (date) => {
     return this.myHotel.rooms.reduce((newArray, room) => {

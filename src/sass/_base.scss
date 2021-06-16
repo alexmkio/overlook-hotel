@@ -24,11 +24,12 @@ header {
 }
 
 .filter {
-  display: flex;
+  @include justifyCentered();
   flex-direction: column;
   align-items: center;
   background-color: $primary-dk-color;
   width: 100%;
+  padding: 1rem;
 }
 
 main { 

@@ -42,7 +42,7 @@ let domUpdates = {
         </section>
         <dl>
           <dt>Cost per night</dt>
-          <dd>$${matchingRoom.costPerNight}</dd>
+          <dd>$${matchingRoom.costPerNight.toFixed(2)}</dd>
           <dt>Bidet</dt>
           <dd>${matchingRoom.bidet}</dd>
         </dl>
@@ -74,7 +74,7 @@ let domUpdates = {
         </section>
         <dl>
           <dt>Cost per night</dt>
-          <dd>$${room.costPerNight}</dd>
+          <dd>$${room.costPerNight.toFixed(2)}</dd>
           <dt>Bidet</dt>
           <dd>${room.bidet}</dd>
         </dl>
@@ -145,7 +145,7 @@ let domUpdates = {
           </section>
           <dl>
             <dt>Cost per night</dt>
-            <dd>$${matchingRoom.costPerNight}</dd>
+            <dd>$${matchingRoom.costPerNight.toFixed(2)}</dd>
             <dt>Bidet</dt>
             <dd>${matchingRoom.bidet}</dd>
           </dl>
@@ -183,7 +183,7 @@ let domUpdates = {
           </section>
           <dl>
             <dt>Cost per night</dt>
-            <dd>$${matchingRoom.costPerNight}</dd>
+            <dd>$${matchingRoom.costPerNight.toFixed(2)}</dd>
             <dt>Bidet</dt>
             <dd>${matchingRoom.bidet}</dd>
           </dl>
