@@ -122,6 +122,7 @@ const checkForError = (response, whatFor) => {
       assignUserBookings()
       domUpdates.updateCustomerInfo(currentCustomer, hotel, todayFormatted)
       domUpdates.showManagerDashboard(manager, todayFormatted)
+      domUpdates.showFoundCustomer()
     }, 4000);
   } else {
     throw Error(response.statusText);
