@@ -122,6 +122,8 @@ let domUpdates = {
 
   updateFutureBookingsSection(currentCustomer, hotel, todayFormatted) {
     if (hotel.findFutureBookings(currentCustomer.id, todayFormatted).length) {
+      domUpdates.show(futureBookingsHeader)
+      domUpdates.show(futureBookingsSection)
       futureBookingsHeader.innerHTML = ''
       futureBookingsHeader.innerHTML = '<h2>Their upcoming bookings</h2>'
       futureBookingsSection.innerHTML = '';
@@ -158,6 +160,9 @@ let domUpdates = {
           </label>
         </acrticle>`
       });
+    } else {
+      domUpdates.hide(futureBookingsHeader)
+      domUpdates.hide(futureBookingsSection)
     }
   },
 
@@ -198,8 +203,6 @@ let domUpdates = {
 
   showFoundCustomer() {
     domUpdates.show(foundCustomerSection)
-    domUpdates.show(futureBookingsHeader)
-    domUpdates.show(futureBookingsSection)
     domUpdates.show(previouslyBookedHeader)
     domUpdates.show(previouslyBookedSection)
   },
