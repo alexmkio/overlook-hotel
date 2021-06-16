@@ -155,6 +155,7 @@ const updateCustomerBookings = () => {
     domUpdates.showTotalSpent(hotel.calculateUserSpending(currentCustomer.id))
     domUpdates.showCustomerBookings(currentCustomer, hotel, customerBookingsSection, previousBookingsSection)
   } else {
+    domUpdates.showFoundCustomer()
     domUpdates.showManagerDashboard(manager, todayFormatted)
     assignUserBookings()
     domUpdates.updateCustomerInfo(currentCustomer, hotel, todayFormatted)
@@ -201,9 +202,20 @@ const timeout = (param) => {
 
 const assignCurrentCustomer = (event) => {
   event.preventDefault()
-  currentCustomer = hotel.customers[manager.getIndexOfCustomer(cstName.value)]
-  assignUserBookings()
-  domUpdates.updateCustomerInfo(currentCustomer, hotel, todayFormatted)
+  let customerName = cstName.value;
+  cstName.value = ''
+  if (hotel.customers[manager.getIndexOfCustomer(customerName)]) {
+    domUpdates.showFoundCustomer()
+    currentCustomer = hotel.customers[manager.getIndexOfCustomer(customerName)]
+    assignUserBookings()
+    domUpdates.updateCustomerInfo(currentCustomer, hotel, todayFormatted)
+  } else {
+    domUpdates.showMsg(customerBookingsSection, currentCustomer, lookingForDate, 'search off')
+    setTimeout(() => {
+      domUpdates.hide(messageSection)
+      domUpdates.showManagerDashboard(manager, todayFormatted)
+    }, 4000);
+  }
 }
 
 const assignUserBookings = () => {

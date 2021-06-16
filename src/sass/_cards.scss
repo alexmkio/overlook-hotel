@@ -18,15 +18,22 @@
   }
 }
 
-dt {
-  margin-top: 1rem;
-  font-size: .9rem;
-  text-transform: uppercase;
-  line-height: 1;
-}
-
-dd {
-  font-size: 1.5rem;
+.cards {
+  & dl {
+    padding: 0rem;
+  }
+  & dt {
+    margin-top: 1rem;
+    font-size: .9rem;
+    text-transform: uppercase;
+    line-height: 1;
+    @include justifyCentered();
+  }
+  & dd {
+    font-size: 1.4rem;
+    text-transform: capitalize;
+    @include justifyCentered();
+  }
 }
 
 .icon {
@@ -40,7 +47,7 @@ dd {
   border: 8px solid $secondary-color;
   transition: 0.3s;
   &:hover {
-    transform: scale(1.1);
+    transform: scale(1.2);
     color: $card-bg-color;
     background-color: $secondary-color;
     border-radius: 50%;

@@ -12,16 +12,7 @@ $card-bg-color: #ffffff;
 $primary-font: 'Lato', sans-serif;
 $logo-font: 'Noto Serif', serif;
 
-// Spacing
-// $button-spacing: 1vw;
-
-// // Mixins
-// @mixin alignCentered() {
-//   display: flex;
-//   align-items: center;
-// }
-
-// @mixin justifyCentered() {
-//   display: flex;
-//   justify-content: center;
-// }
+@mixin justifyCentered() {
+  display: flex;
+  justify-content: center;
+}
