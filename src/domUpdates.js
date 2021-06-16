@@ -101,6 +101,7 @@ let domUpdates = {
   },
 
   updateCustomerInfo(currentCustomer, hotel, todayFormatted) {
+    domUpdates.hide(messageSection)
     domUpdates.show(filterSection)
     datePickerHeader.innerHTML = ''
     datePickerHeader.innerHTML = `Find a room for ${currentCustomer.name}`
