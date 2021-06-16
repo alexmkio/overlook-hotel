@@ -115,8 +115,8 @@ let domUpdates = {
         <dt>Total amount they've spent:</dt>
         <dd>$${hotel.calculateUserSpending(currentCustomer.id)}</dd>
       </dl>`
-      domUpdates.updateFutureBookingsSection(currentCustomer, hotel, todayFormatted)
-      domUpdates.updatePreviouslyBookedSection(currentCustomer, hotel, todayFormatted)
+    domUpdates.updateFutureBookingsSection(currentCustomer, hotel, todayFormatted)
+    domUpdates.updatePreviouslyBookedSection(currentCustomer, hotel, todayFormatted)
     cstName.value = ''
   },
 

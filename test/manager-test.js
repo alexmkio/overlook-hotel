@@ -38,7 +38,7 @@ describe('MANAGER CLASS TESTS', function() {
   it('Given today\'s date, should see total revenue for that day', () => {
     expect(manager.getTotalRevenue("2020/04/22")).to.equal(
       Math.round((358.4 + 429.44) * 100) / 100
-      );
+    );
   });
 
   it('Given today\'s date, should not see incorrect total revenue for that day', () => {
