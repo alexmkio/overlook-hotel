@@ -18,15 +18,22 @@
   }
 }
 
-dt {
-  margin-top: 1rem;
-  font-size: .9rem;
-  text-transform: uppercase;
-  line-height: 1;
-}
-
-dd {
-  font-size: 1.4rem;
+.cards {
+  & dl {
+    padding: 0rem;
+  }
+  & dt {
+    margin-top: 1rem;
+    font-size: .9rem;
+    text-transform: uppercase;
+    line-height: 1;
+    @include justifyCentered();
+  }
+  & dd {
+    font-size: 1.4rem;
+    text-transform: capitalize;
+    @include justifyCentered();
+  }
 }
 
 .icon {
