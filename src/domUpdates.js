@@ -113,7 +113,7 @@ let domUpdates = {
         <dt>Customer's Name:</dt>
         <dd>${currentCustomer.name}</dd>
         <dt>Total amount they've spent:</dt>
-        <dd>$${hotel.calculateUserSpending(currentCustomer.id)}</dd>
+        <dd>$${hotel.calculateUserSpending(currentCustomer.id).toFixed(2)}</dd>
       </dl>`
     domUpdates.updateFutureBookingsSection(currentCustomer, hotel, todayFormatted)
     domUpdates.updatePreviouslyBookedSection(currentCustomer, hotel, todayFormatted)
@@ -196,7 +196,13 @@ let domUpdates = {
     }
   },
 
-
+  showFoundCustomer() {
+    domUpdates.show(foundCustomerSection)
+    domUpdates.show(futureBookingsHeader)
+    domUpdates.show(futureBookingsSection)
+    domUpdates.show(previouslyBookedHeader)
+    domUpdates.show(previouslyBookedSection)
+  },
 
   showMsg(customerBookingsSection, currentCustomer, lookingForDate, type, responseStatus) {
     domUpdates.hide(filterSection)
@@ -204,6 +210,11 @@ let domUpdates = {
     domUpdates.hide(customerBookingsSection)
     domUpdates.hide(availableRoomsSection)
     domUpdates.hide(managerSection)
+    domUpdates.hide(foundCustomerSection)
+    domUpdates.hide(futureBookingsHeader)
+    domUpdates.hide(futureBookingsSection)
+    domUpdates.hide(previouslyBookedHeader)
+    domUpdates.hide(previouslyBookedSection)
     domUpdates.show(messageSection)
     if (type === 'password') {
       message.innerHTML =
@@ -242,6 +253,11 @@ let domUpdates = {
       message.innerHTML =
         `<p>We have removed that booking!</p>
         <p>Is ${currentCustomer.name} looking for something else?</p>`
+    }
+    if (type === 'search off') {
+      message.innerHTML =
+        `<p>We're sorry but we could not locate a user by that name.</p>
+        <p>Please check your spelling and capitalization and try again!</p>`
     }
   },
 
