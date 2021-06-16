@@ -11,3 +11,8 @@ $card-bg-color: #ffffff;
 // Fonts
 $primary-font: 'Lato', sans-serif;
 $logo-font: 'Noto Serif', serif;
+
+@mixin justifyCentered() {
+  display: flex;
+  justify-content: center;
+}
