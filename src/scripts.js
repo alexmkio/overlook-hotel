@@ -76,6 +76,7 @@ const fetchData = () => {
       roomsData = promiseArray[1].rooms;
       bookingsData = promiseArray[2].bookings;
       instantiateData()
+      updateCustomerBookings()
     })
     .catch(error => {
       domUpdates.showMsg(customerBookingsSection, currentCustomer, lookingForDate, 'fail', error)
@@ -147,6 +148,7 @@ const instantiateData = () => {
     credentials
   );
   manager = new Manager(hotel);
+  currentCustomer = hotel.customers[0]
 }
 
 const updateCustomerBookings = () => {

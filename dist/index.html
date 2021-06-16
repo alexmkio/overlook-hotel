@@ -12,7 +12,7 @@
   <body>
     <header>
       <h1>Overlook Hotel</h1>
-      <section class="filter hide" id="filterSection">
+      <section class="filter" id="filterSection">
         <form>
           <label for="datePicker" id="datePickerHeader">Look at rooms available on the following date:</label>
           <input type="date" id="datePicker" required>
@@ -22,7 +22,7 @@
     </header>
     <main>
 
-      <section class="message-container" id="loginSection">
+      <section class="message-container hide" id="loginSection">
         <section class="message-card">
           <form>
             <label for="usrname">Username</label>
@@ -34,9 +34,9 @@
         </section>
       </section>
 
-      <section class="hide" id="customerBookings">
+      <section class="" id="customerBookings">
         <dl>
-          <dt>Total amount you've spent on rooms: $</dt>
+          <dt>Total amount you've spent on rooms:</dt>
           <dd id="totalSpent"></dd>
         </dl>
         <h2>Rooms you've booked</h2>
