@@ -78,9 +78,11 @@ let domUpdates = {
           <dt>Bidet</dt>
           <dd>${room.bidet}</dd>
         </dl>
-        <button class="material-icons-outlined md-48 icon" id="${room.number}">
-          add
-        </button>
+        <label>
+          <button class="material-icons-outlined md-48 icon" id="${room.number}">
+            add
+          </button>
+        </label>
       </acrticle>`
     })
   },
@@ -149,9 +151,11 @@ let domUpdates = {
             <dt>Bidet</dt>
             <dd>${matchingRoom.bidet}</dd>
           </dl>
-          <button class="material-icons-outlined md-48 icon" id="${booking.id}">
-            delete
-          </button>
+          <label>
+            <button class="material-icons-outlined md-48 icon" id="${booking.id}">
+              delete
+            </button>
+          </label>
         </acrticle>`
       });
     }
