@@ -29,12 +29,13 @@ header {
   align-items: center;
   background-color: $primary-dk-color;
   width: 100%;
-  padding: 1rem;
+  padding: 1rem 0;
 }
 
 main { 
   flex: 1;
   background: $primary-lt-color;
+  padding: 1rem;
 }
 
 .flexCenter {
